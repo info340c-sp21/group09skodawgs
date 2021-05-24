@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM, { render } from 'react-dom';
 import App from './App';
 
-class App extends Component {
+class App2 extends Component {
     render() {
     return(<div class="landing-text">
         <h1 class="logo text">
@@ -23,4 +23,4 @@ class App extends Component {
 }
 }
 
-export default App;
+export default App2;

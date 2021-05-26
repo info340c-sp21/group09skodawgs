@@ -8,6 +8,7 @@ import { About } from './About';
 class App2 extends Component {
     render() {
         return (<div>
+            <TopBar></TopBar>
             <Router>
                 <div className="container">
                     <Link to="/">About</Link>
@@ -17,6 +18,7 @@ class App2 extends Component {
                     <Route path="/home" component={HomePage} />
                 </div>
             </Router>
+            
 
         </div>
         );

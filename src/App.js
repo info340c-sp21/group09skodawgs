@@ -4,6 +4,7 @@ import App from './App';
 import { HashRouter as Router, Route, Link } from "react-router-dom";
 import { HomePage, MoodForm } from './Home';
 import { About } from './About';
+import _ from 'lodash';
 
 class App2 extends Component {
     render() {
@@ -18,8 +19,6 @@ class App2 extends Component {
                     <Route path="/home" component={HomePage} />
                 </div>
             </Router>
-            
-
         </div>
         );
     }

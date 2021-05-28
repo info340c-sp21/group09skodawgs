@@ -9,17 +9,15 @@ export class HomePage extends Component {
         //this.updateSelection = this.updateSelection.bind(this);
         this.state = {
             drinks: [],
-            keys: []
+            keys: [],
+            selectedDrink: ''
         };
     }
 
     updateSelection = (selection) => {
-        console.log("IN UPDATE SELECTION FUNCTION" + selection);
-        this.setState((currentState) => {
-            let chosenDrink = _.find(currentState.drinks, ['mood', selection]);
-            
-            return chosenDrink;
-        });
+        console.log("IN UPDATE SELECTION FUNCTION " + selection);
+        
+        
 
     }
 
@@ -31,7 +29,7 @@ export class HomePage extends Component {
     render() {
         return (
             <div className="home-elements">
-                <IntroText></IntroText>
+                <IntroText selDrink={this.state.selectedDrink}></IntroText>
                 <br />
                 <DrinkSelection drink={this.state} updateSelection={this.updateSelection}/>
 
@@ -62,6 +60,7 @@ class IntroText extends Component {
                 </h1>
                 <h3 className="slogan text">
                     <span>Woop Woop!</span><span></span>
+                    {this.props.selDrink}
                 </h3>
 
                 <p className="landing-instructions text">Let's figure out how to customize drinks together!</p>
@@ -74,25 +73,28 @@ class IntroText extends Component {
 }
 
 class OneMood extends Component { 
+    handleClick = (item) => {
+        this.props.updateSelection(item);
+       console.log("Ive been clicked"); 
+       this.setState({selectedDrink: item});
+    }
     
     render() { 
         //console.log(this.props.value);
         return (
-            <option value={this.props.value}>
-            {this.props.value}
+            <option value={this.props.value.mood}>
+            {this.props.value.mood + ' '} {this.props.value.type}
              </option>
         );
     }
 }
 
 class DrinkSelection extends Component {
-    //handleClick = (event) => {
-        //this.props.updateSelection(this.props.drink.drinks.mood);
-      //  console.log("Ive been clicked"); 
-    //}
+    
     
 
     render() {
+        console.log(this.props.drink.drinks);
         // let dataItems = this.props.keys.map((item) => {
         //     return (
         //         <option
@@ -108,11 +110,12 @@ class DrinkSelection extends Component {
         
         this.props.drink.drinks.map((item)=> { 
             if (!moodArray.includes(item.mood)) { 
-                const handleClick = () => {this.props.updateSelection(this.props.drink.drinks.mood)
-                    console.log('hi issme')}; //maybe this works? lol sorry my house is noisy
-                moodArray.push(<OneMood value={item.mood} onClick={handleClick} />);
-                return <OneMood value={item.mood} />;
+                //const handleClick = () => {this.props.updateSelection(this.props.drink.drinks.mood)
+                   // console.log('hi issme')}; //maybe this works? lol sorry my house is noisy
+                moodArray.push(<OneMood value={item} onSelect={this.handleClick(item.mood) } key={item.link}  />);
+                
             }
+            return moodArray;
             
         });
         // let test = (this.props.drink.drinks.map((item)=> { 

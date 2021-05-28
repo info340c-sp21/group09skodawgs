@@ -73,11 +73,7 @@ class IntroText extends Component {
 }
 
 class OneMood extends Component { 
-    handleClick = (item) => {
-        this.props.updateSelection(item);
-       console.log("Ive been clicked"); 
-       this.setState({selectedDrink: item});
-    }
+    
     
     render() { 
         //console.log(this.props.value);
@@ -91,7 +87,11 @@ class OneMood extends Component {
 
 class DrinkSelection extends Component {
     
-    
+    handleClick = (item) => {
+        this.props.updateSelection(item);
+       console.log("Ive been clicked"); 
+    //    this.setState({selectedDrink: item});
+    }
 
     render() {
         console.log(this.props.drink.drinks);
@@ -111,8 +111,9 @@ class DrinkSelection extends Component {
         this.props.drink.drinks.map((item)=> { 
             if (!moodArray.includes(item.mood)) { 
                 //const handleClick = () => {this.props.updateSelection(this.props.drink.drinks.mood)
-                   // console.log('hi issme')}; //maybe this works? lol sorry my house is noisy
-                moodArray.push(<OneMood value={item} onSelect={this.handleClick(item.mood) } key={item.link}  />);
+                // console.log('hi issme')}; //maybe this works? lol sorry my house is noisy
+                //this.handleClick(item.mood)
+                moodArray.push(<OneMood value={item} key={item.link}  />);
                 
             }
             return moodArray;
@@ -130,7 +131,7 @@ class DrinkSelection extends Component {
                                 <label htmlFor="moods" className="main-title">
                                     How are you feeling today?
                                     <div >
-                                    <select name="types" id="types">
+                                    <select name="types" id="types" onSelect={console.log('hello')}>
                                        {moodArray}
                                        </select>
                                     </div>

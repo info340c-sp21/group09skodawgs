@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import * as d3c from 'd3-collection';
 import * as d3 from 'd3';
 import _ from 'lodash';
+import {
+    Card, CardImg, CardText, CardBody,
+    CardTitle, CardSubtitle, Button
+} from 'reactstrap';
 
 export class HomePage extends Component {
     constructor(props) {
@@ -16,8 +20,6 @@ export class HomePage extends Component {
 
     updateSelection = (selection) => {
         console.log("IN UPDATE SELECTION FUNCTION " + selection);
-        
-        
 
     }
 
@@ -31,7 +33,10 @@ export class HomePage extends Component {
             <div className="home-elements">
                 <IntroText selDrink={this.state.selectedDrink}></IntroText>
                 <br />
-                <DrinkSelection drink={this.state} updateSelection={this.updateSelection}/>
+                <DrinkSelection drink={this.state} updateSelection={this.updateSelection} />
+                <br />
+                <div className='row'> <DrinkCardRow drink={this.state}/></div>
+                
 
             </div>
         );
@@ -72,25 +77,58 @@ class IntroText extends Component {
     }
 }
 
-class OneMood extends Component { 
-    
-    
-    render() { 
-        //console.log(this.props.value);
+
+class DrinkCard extends Component {
+    render() {
         return (
-            <option value={this.props.value.mood}>
-            {this.props.value.mood + ' '} {this.props.value.type}
-             </option>
+                <Card style={{border: '1px black'}}>
+                    <CardImg top width="25%" src='img/bobaimg.jpg' alt="Card image cap" />
+                    <CardBody>
+                        <CardTitle> {this.props.value.drink}</CardTitle>
+                        <CardSubtitle tag="h6" className="mb-2 text-muted">{this.props.value.type}</CardSubtitle>
+                        <CardText>{this.props.value.author}</CardText>
+                        <Button><a href={this.props.value.link}>{'View Recipe!'}</a></Button>
+                    </CardBody>
+                </Card>
+              
         );
     }
 }
 
+class DrinkCardRow extends Component {
+    render() {
+        let drinkCardArray = this.props.drink.drinks.map((item) => {
+            return (<DrinkCard value={item} key={item.drink} />);
+        })
+        return (
+            <div>
+                <h2>Some Options</h2>
+                {drinkCardArray};
+            </div>
+        );
+    }
+}
+
+class OneMood extends Component {
+
+
+    render() {
+        return (
+            <option value={this.props.value.mood}>
+                {this.props.value.mood + ' '} {this.props.value.type + ' beverage'}
+            </option>
+        );
+    }
+}
+
+
 class DrinkSelection extends Component {
-    
+
     handleClick = (item) => {
+        console.log("Ive been clicked");
         this.props.updateSelection(item.target.value);
-       console.log("Ive been clicked"); 
-    //    this.setState({selectedDrink: item});
+
+        //    this.setState({selectedDrink: item});
     }
 
     render() {
@@ -105,19 +143,19 @@ class DrinkSelection extends Component {
         //         </option>
         //     )
         // })
-      //  console.log(this.props.drinks.mood);
+        //  console.log(this.props.drinks.mood);
         let moodArray = [];
-        
-        this.props.drink.drinks.map((item)=> { 
-            if (!moodArray.includes(item.mood)) { 
+
+        this.props.drink.drinks.map((item) => {
+            if (!moodArray.includes(item.mood)) {
                 //const handleClick = () => {this.props.updateSelection(this.props.drink.drinks.mood)
                 // console.log('hi issme')}; //maybe this works? lol sorry my house is noisy
                 //this.handleClick(item.mood)
-                moodArray.push(<OneMood value={item} key={item.link}  />);
-                
+                moodArray.push(<OneMood value={item} key={item.link} />);
+
             }
             return moodArray;
-            
+
         });
         // let test = (this.props.drink.drinks.map((item)=> { 
         //     console.log(item.mood);
@@ -131,9 +169,10 @@ class DrinkSelection extends Component {
                                 <label htmlFor="moods" className="main-title">
                                     How are you feeling today?
                                     <div >
-                                    <select name="types" id="types" onChange={this.handleClick}>
-                                       {moodArray}
-                                       </select>
+                                        <select name="types" id="types" onChange={this.handleClick}>
+                                            <option value="DEFAULT">{'-- select a vibe --'}</option>
+                                            {moodArray}
+                                        </select>
                                     </div>
 
                                 </label><br />

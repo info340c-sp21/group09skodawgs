@@ -80,7 +80,7 @@ class DrinkCard extends Component {
     render() {
         return (
                 <Card style={{border: '1px black'}}>
-                    <CardImg top width="25%" src='img/bobaimg.jpg' alt="Card image cap" />
+                    <CardImg top width="25%" src={this.props.value.image} alt="Card image cap" />
                     <CardBody>
                         <CardTitle> Your Drink is: {this.props.value.drink}</CardTitle>
                         <CardText> Recipe created by: {this.props.value.author}</CardText>

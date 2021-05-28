@@ -13,11 +13,11 @@ class App2 extends Component {
             <TopBar></TopBar>
             <Router>
                 <div className="container">
-                    <Link to="/">About</Link>
+                    <Link to="/">Home</Link>
                     {' - '}
-                    <Link to="/home">Home</Link>
-                    <Route exact path="/" component={About} />
-                    <Route path="/home" component={HomePage} />
+                    <Link to="/about">About</Link>
+                    <Route exact path="/" component={HomePage} />
+                    <Route path="/about" component={About} />
                 </div>
             </Router>
         </div>

@@ -11,7 +11,7 @@ import './index.css'; //import css file!
 export class HomePage extends Component {
     constructor(props) {
         super(props);
-        //this.updateSelection = this.updateSelection.bind(this);
+        this.updateSelection = this.updateSelection.bind(this);
         this.state = {
             drinks: [],
             keys: [],
@@ -20,7 +20,7 @@ export class HomePage extends Component {
     }
 
     updateSelection = (selection) => {
-        console.log("IN UPDATE SELECTION FUNCTION " + selection);
+        this.setState({selectedDrink: selection});
 
     }
 
@@ -49,7 +49,6 @@ export class HomePage extends Component {
 /*function MyButton() {
 
     let handleClick = function (event) {
-        console.log("clicky clicky");
     }
     //this.props.name, this.props.soup
     //make a button with an `onClick` attribute!
@@ -65,7 +64,6 @@ class IntroText extends Component {
                 </h1>
                 <h3 className="slogan text">
                     <span>Woop Woop!</span><span></span>
-                    {this.props.selDrink}
                 </h3>
 
                 <p className="landing-instructions text">Let's figure out how to customize drinks together</p>
@@ -84,9 +82,8 @@ class DrinkCard extends Component {
                 <Card style={{border: '1px black'}}>
                     <CardImg top width="25%" src='img/bobaimg.jpg' alt="Card image cap" />
                     <CardBody>
-                        <CardTitle> {this.props.value.drink}</CardTitle>
-                        <CardSubtitle tag="h6" className="mb-2 text-muted">{this.props.value.type}</CardSubtitle>
-                        <CardText>{this.props.value.author}</CardText>
+                        <CardTitle> Your Drink is: {this.props.value.drink}</CardTitle>
+                        <CardText> Recipe created by: {this.props.value.author}</CardText>
                         <Button><a href={this.props.value.link}>{'View Recipe!'}</a></Button>
                     </CardBody>
                 </Card>
@@ -98,12 +95,15 @@ class DrinkCard extends Component {
 class DrinkCardRow extends Component {
     render() {
         let drinkCardArray = this.props.drink.drinks.map((item) => {
+            let drinkOption = this.props.drink.selectedDrink;
+            if (drinkOption.includes(item.type) && drinkOption.includes(item.mood)) {
             return (<DrinkCard value={item} key={item.drink} />);
+            }
         })
         return (
             <div>
-                <h2>Some Options</h2>
-                {drinkCardArray};
+                <h2>Drink Chosen for you!</h2>
+                {drinkCardArray}
             </div>
         );
     }
@@ -114,7 +114,7 @@ class OneMood extends Component {
 
     render() {
         return (
-            <option value={this.props.value.mood}>
+            <option value={(this.props.value.mood)+(this.props.value.type)} >
                 {this.props.value.mood + ' '} {this.props.value.type + ' beverage'}
             </option>
         );
@@ -125,14 +125,14 @@ class OneMood extends Component {
 class DrinkSelection extends Component {
 
     handleClick = (item) => {
-        console.log("Ive been clicked");
         this.props.updateSelection(item.target.value);
 
-        //    this.setState({selectedDrink: item});
+        // this.setState({selectedDrink: item.target.value});
+        this.selectedDrink = item.target.value;
+
     }
 
     render() {
-        console.log(this.props.drink.drinks);
         // let dataItems = this.props.keys.map((item) => {
         //     return (
         //         <option
@@ -143,22 +143,20 @@ class DrinkSelection extends Component {
         //         </option>
         //     )
         // })
-        //  console.log(this.props.drinks.mood);
         let moodArray = [];
 
         this.props.drink.drinks.map((item) => {
             if (!moodArray.includes(item.mood)) {
                 //const handleClick = () => {this.props.updateSelection(this.props.drink.drinks.mood)
-                // console.log('hi issme')}; //maybe this works? lol sorry my house is noisy
                 //this.handleClick(item.mood)
                 moodArray.push(<OneMood value={item} key={item.link} />);
+                
 
             }
             return moodArray;
 
         });
         // let test = (this.props.drink.drinks.map((item)=> { 
-        //     console.log(item.mood);
         // }));
         return (
             <div className='drink-selection'>

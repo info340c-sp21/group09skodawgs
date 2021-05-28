@@ -88,7 +88,7 @@ class OneMood extends Component {
 class DrinkSelection extends Component {
     
     handleClick = (item) => {
-        this.props.updateSelection(item);
+        this.props.updateSelection(item.target.value);
        console.log("Ive been clicked"); 
     //    this.setState({selectedDrink: item});
     }
@@ -131,7 +131,7 @@ class DrinkSelection extends Component {
                                 <label htmlFor="moods" className="main-title">
                                     How are you feeling today?
                                     <div >
-                                    <select name="types" id="types" onSelect={console.log('hello')}>
+                                    <select name="types" id="types" onChange={this.handleClick}>
                                        {moodArray}
                                        </select>
                                     </div>

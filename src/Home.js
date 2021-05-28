@@ -6,6 +6,7 @@ import {
     Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle, Button
 } from 'reactstrap';
+import './index.css'; //import css file!
 
 export class HomePage extends Component {
     constructor(props) {
@@ -61,14 +62,13 @@ class IntroText extends Component {
         return (
             <div className="landing-text">
                 <h1 className="logo text">
-                    <span className='drinkingchoices'>Drink Choices</span>
                 </h1>
                 <h3 className="slogan text">
                     <span>Woop Woop!</span><span></span>
                     {this.props.selDrink}
                 </h3>
 
-                <p className="landing-instructions text">Let's figure out how to customize drinks together!</p>
+                <p className="landing-instructions text">Let's figure out how to customize drinks together</p>
                 <div className='martini-box'>
                     <div className='whoosh'>Let's begin.</div>
                 </div>

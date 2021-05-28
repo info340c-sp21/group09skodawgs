@@ -5,6 +5,7 @@ import { HashRouter as Router, Route, Link } from "react-router-dom";
 import { HomePage, MoodForm } from './Home';
 import { About } from './About';
 import _ from 'lodash';
+import './index.css'; //import css file!
 
 class App2 extends Component {
     render() {

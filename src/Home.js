@@ -1,86 +1,46 @@
 import React, { Component } from 'react';
 import * as d3c from 'd3-collection';
 import * as d3 from 'd3';
+import _ from 'lodash';
 
 export class HomePage extends Component {
     constructor(props) {
         super(props);
-        this.updateSelection = this.updateSelection.bind(this);
+        //this.updateSelection = this.updateSelection.bind(this);
         this.state = {
-            data: [],
-            keys: [],
-            mood: 'Mood',
-            type: 'Type'
-        }
+            drinks: [],
+            keys: []
+        };
     }
 
-    updateSelection = (s) => {
-        this.setState({ mood: s.mood, type: s.type });
+    updateSelection = (selection) => {
+        console.log("IN UPDATE SELECTION FUNCTION" + selection);
+        this.setState((currentState) => {
+            let chosenDrink = _.find(currentState.drinks, ['mood', selection]);
+            
+            return chosenDrink;
+        });
+
     }
 
     componentDidMount() {
-        d3.csv('/data.csv').then((d) => {
-            this.setState({ data: d, keys: d3c.keys(d[0]) })
-        })
+        d3.csv('data/data.csv').then((d) => {
+            this.setState({ drinks: d, keys: d3c.keys(d[0]) });
+        });
     }
     render() {
         return (
             <div className="home-elements">
                 <IntroText></IntroText>
                 <br />
-                <DrinkSelection></DrinkSelection>
+                <DrinkSelection drink={this.state} updateSelection={this.updateSelection}/>
 
             </div>
         );
     }
 }
 
-class DrinkSelection extends Component {
-    render() {
-        let dataItems = this.props.keys.map((item) => {
-            return (
-                <option
-                    key={item}
-                text={item}
-                onClick={() => this.props.clickHandler(item)}>
-                    {item}
-                </option>
-            )
-        })
-        return (
-            <div className='drink-selection'>
-                <div className='container-fluid ingredients-box'>
-                    <div className="row">
-                        <div className="col-lg-9">
-                            <form>
-                                <label htmlFor="moods" className="main-title">How are you feeling today?</label><br />
-                                <select name="moods" id="moods">
-                                    <option value="DEFAULT" disabled>-- select a mood --</option>
-                                    <option value="1"> Happy </option>
-                                    <option value="2"> Sad </option>
-                                    <option value="3"> Excited </option>
-                                    <option value="4"> Tired </option>
-                                    <option value="5"> Angry </option>
-                                </select><br />
-                                {/* <br />
-                                <label htmlFor="types" className="main-title">What kind of drink?</label><br />
-                                <select name="types" id="types">
-                                    <option value="DEFAULT" disabled>-- select a type --</option>
-                                    <option value="1"> Alcoholic </option>
-                                    <option value="2"> Non-Alcoholic </option>
-                                </select><br />
-                                <br /> */}
 
-                            </form>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        )
-    }
-}
 
 /*function MyButton() {
 
@@ -113,6 +73,86 @@ class IntroText extends Component {
     }
 }
 
+class OneMood extends Component { 
+    
+    render() { 
+        //console.log(this.props.value);
+        return (
+            <option value={this.props.value}>
+            {this.props.value}
+             </option>
+        );
+    }
+}
+
+class DrinkSelection extends Component {
+    //handleClick = (event) => {
+        //this.props.updateSelection(this.props.drink.drinks.mood);
+      //  console.log("Ive been clicked"); 
+    //}
+    
+
+    render() {
+        // let dataItems = this.props.keys.map((item) => {
+        //     return (
+        //         <option
+        //             key={item}
+        //             text={item}
+        //             onClick={() => this.props.clickHandler(item)}>
+        //             {item}
+        //         </option>
+        //     )
+        // })
+      //  console.log(this.props.drinks.mood);
+        let moodArray = [];
+        
+        this.props.drink.drinks.map((item)=> { 
+            if (!moodArray.includes(item.mood)) { 
+                const handleClick = () => {this.props.updateSelection(this.props.drink.drinks.mood)
+                    console.log('hi issme')}; //maybe this works? lol sorry my house is noisy
+                moodArray.push(<OneMood value={item.mood} onClick={handleClick} />);
+                return <OneMood value={item.mood} />;
+            }
+            
+        });
+        // let test = (this.props.drink.drinks.map((item)=> { 
+        //     console.log(item.mood);
+        // }));
+        return (
+            <div className='drink-selection'>
+                <div className='container-fluid ingredients-box'>
+                    <div className="row">
+                        <div className="col-lg-9">
+                            <form>
+                                <label htmlFor="moods" className="main-title">
+                                    How are you feeling today?
+                                    <div >
+                                    <select name="types" id="types">
+                                       {moodArray}
+                                       </select>
+                                    </div>
+
+                                </label><br />
+                                <br />
+                                {/* <br />
+                                <label htmlFor="types" className="main-title">What kind of drink?</label><br />
+                                
+                                    <option value="DEFAULT" disabled>-- select a type --</option>
+                                    <option value="1"> Alcoholic </option>
+                                    <option value="2"> Non-Alcoholic </option>
+                                </select><br />
+                                <br /> */}
+
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
 /*class IngMidBox extends Component {
     render() {
         return (

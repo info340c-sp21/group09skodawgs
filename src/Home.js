@@ -78,13 +78,14 @@ class IntroText extends Component {
 
 class DrinkCard extends Component {
     render() {
+        console.log(this.props.value.link);
         return (
                 <Card style={{border: '1px black'}}>
                     <CardImg top width="25%" src={this.props.value.image} alt="Card image cap" />
                     <CardBody>
                         <CardTitle> Your Drink is: {this.props.value.drink}</CardTitle>
                         <CardText> Recipe created by: {this.props.value.author}</CardText>
-                        <Button><a href={this.props.value.link}>{'View Recipe!'}</a></Button>
+                        <Button><a href={this.props.value.link} target="_blank">{'View Recipe!'}</a></Button>
                     </CardBody>
                 </Card>
               

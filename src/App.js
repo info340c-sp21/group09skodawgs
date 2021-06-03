@@ -5,6 +5,8 @@ import { HashRouter as Router, Route, Link } from "react-router-dom";
 import { HomePage, MoodForm } from './Home';
 import { About } from './About';
 import _ from 'lodash';
+import * as d3c from 'd3-collection';
+import * as d3 from 'd3';
 import './index.css'; //import css file!
 
 class App2 extends Component {
@@ -25,6 +27,7 @@ class App2 extends Component {
     }
 }
 
+
 class TopBar extends Component {
     render() {
         return (
@@ -35,7 +38,7 @@ class TopBar extends Component {
                     </div>
                     <div className="col-lg-offset-3 col-lg-3">
                         <div className='random-centered random-title'> can't decide?
-                            <button className="random random-centered button main-title">Try Me!</button>
+                            <TryMe ></TryMe>
                         </div>
                     </div>
                 </div>
@@ -44,6 +47,44 @@ class TopBar extends Component {
     }
 }
 
+
+class TryMe extends Component {
+    constructor(props) {
+        super(props);
+        this.updateSelection = this.updateSelection.bind(this);
+        this.state = {
+            drinks: [],
+            keys: [],
+            selectedDrink: ''
+        };
+    }
+
+    updateSelection = (selection) => {
+        this.setState({selectedDrink: selection});
+
+    }
+
+    componentDidMount() {
+        d3.csv('data/data.csv').then((d) => {
+            this.setState({ drinks: d, keys: d3c.keys(d[0]) });
+        });
+    }
+    
+    getRandom() {
+        console.log(this.props);
+        // let drinkCardArray = this.props.drink.drinks.map();
+        // console.log(drinkCardArray);
+    }
+    
+    render() {
+        this.getRandom();
+        return (
+            <div>
+                <button className="random random-centered button main-title">Try Me!</button>
+            </div>
+        );
+    }
+}
 
 
 

@@ -195,6 +195,28 @@ class DrinkSelection extends Component {
         )
     }
 }
+
+
+// class RandomSelect extends Component {
+//     randomDrink() {
+//         let drinkKeys = Object.keys(DRINKS);
+//         let num = Math.floor(Math.random() * drinkKeys.length);
+//         drinkType = drinkKeys[num];
+//         num = Math.floor(Math.random() * DRINKS[drinkType].length)
+//         if (drinkType == 'alcoholic' && num == 4) {
+//             num = num - 1;
+//         }
+    
+//         return renderDrink(drinkType, DRINKS[drinkType][num].mood);
+//     }
+    
+//     render() {
+//         return (
+
+//         );
+//     }
+// }
+
 /*class IngMidBox extends Component {
     render() {
         return (

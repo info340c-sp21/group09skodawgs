@@ -34,19 +34,9 @@ button.random{
    font-family: 'Poppins', sans-serif;
 }
 
-.DrinkChosen {
+.drink-chosen {
    display: flex;
    justify-content: right;
    margin-right: 0;
  }
  
- .DrinkChosen.position {
-    position: absolute;
-    margin-right:0;
-    display:block;
- }
- .DrinkChosen>div {
-   padding: 100px;
-   margin-right:0;
-   display:block;
- }

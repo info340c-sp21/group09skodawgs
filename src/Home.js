@@ -102,7 +102,7 @@ class DrinkCardRow extends Component {
             }
         })
         return (
-            <div>
+            <div className="DrinkChosen">
                 <h2>Drink Chosen for you!</h2>
                 {drinkCardArray}
             </div>

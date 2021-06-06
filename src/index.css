@@ -1,6 +1,8 @@
 h1{
    font-size:93pt;
    font-weight: bold;
+   margin-left: 0px;
+   margin-right: 700px;
 }
 body{
    /*Color grey for debug*/
@@ -34,9 +36,24 @@ button.random{
    font-family: 'Poppins', sans-serif;
 }
 
-.drink-chosen {
-   display: flex;
-   justify-content: right;
-   margin-right: 0;
- }
- 
+div.row {
+   display:flex;
+}
+
+div.card {
+   margin-right: 0px;
+}
+
+.row {
+   margin-right:0px;
+   margin-left: 700px;
+   margin-top: 0px;
+}
+
+div.drink-chosen {
+   padding: 15px 20px;
+}
+
+div.drink-chosen.random {
+   margin-top: 15px;
+}

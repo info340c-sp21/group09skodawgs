@@ -79,8 +79,13 @@ class IntroText extends Component {
 class DrinkCard extends Component {
     render() {
         console.log(this.props.value.link);
+        const mystyle = {
+            border: '1px black',
+            marginTop: '10px',
+            float: 'right'
+          };
         return (
-                <Card style={{border: '1px black'}}>
+                <Card style={mystyle}>>
                     <CardImg top width="25%" src={this.props.value.image} alt="Card image cap" />
                     <CardBody>
                         <CardTitle> Your Drink is: {this.props.value.drink}</CardTitle>
@@ -102,7 +107,7 @@ class DrinkCardRow extends Component {
             }
         })
         return (
-            <div className="drink-chosen" floated="right">
+            <div className="drink-chosen random">
                 <h2>Drink Chosen for you!</h2>
                 {drinkCardArray}
             </div>
@@ -162,7 +167,7 @@ class DrinkSelection extends Component {
         return (
             <div className='drink-selection'>
                 <div className='container-fluid ingredients-box'>
-                    <div className="row">
+                    <div className="titles">
                         <div className="col-lg-9">
                             <form>
                                 <label htmlFor="moods" className="main-title">

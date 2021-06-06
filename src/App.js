@@ -32,7 +32,7 @@ class TopBar extends Component {
     render() {
         return (
             <header className="container-fluid head">
-                <div className="row">
+                <div className="topBar">
                     <div className="col-lg-offset-2 col-lg-4">
                         <h1 className="top-logo drinkingchoices">Drink Choices</h1>
                     </div>

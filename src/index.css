@@ -36,14 +36,6 @@ button.random{
    font-family: 'Poppins', sans-serif;
 }
 
-div.row {
-   display:flex;
-}
-
-div.card {
-   margin-right: 0px;
-}
-
 .row {
    margin-right:0px;
    margin-left: 700px;
@@ -56,4 +48,8 @@ div.drink-chosen {
 
 div.drink-chosen.random {
    margin-top: 15px;
+}
+
+div.card {
+   margin-top: 15px
 }

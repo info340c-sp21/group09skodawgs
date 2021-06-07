@@ -85,7 +85,7 @@ class DrinkCard extends Component {
             float: 'right'
           };
         return (
-                <Card style={mystyle}>>
+                <Card style={mystyle}>
                     <CardImg top width="25%" src={this.props.value.image} alt="Card image cap" />
                     <CardBody>
                         <CardTitle> Your Drink is: {this.props.value.drink}</CardTitle>

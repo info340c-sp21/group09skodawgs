@@ -4,6 +4,7 @@ import App from './App';
 import { HashRouter as Router, Route, Link } from "react-router-dom";
 import { HomePage, MoodForm } from './Home';
 import { About } from './About';
+import { BarsPage } from './Bars';
 import _ from 'lodash';
 import * as d3c from 'd3-collection';
 import * as d3 from 'd3';
@@ -17,8 +18,11 @@ class App2 extends Component {
                 <div className="container">
                     <Link to="/">Home</Link>
                     {' - '}
+                    <Link to="/bars">Local Bars</Link>
+                    {' - '}
                     <Link to="/about">About</Link>
                     <Route exact path="/" component={HomePage} />
+                    <Route path="/bars" component={BarsPage} />
                     <Route path="/about" component={About} />
                 </div>
             </Router>

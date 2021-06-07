@@ -78,7 +78,6 @@ class IntroText extends Component {
 
 class DrinkCard extends Component {
     render() {
-        console.log(this.props.value.link);
         const mystyle = {
             border: '1px black',
             marginTop: '10px',
@@ -101,14 +100,23 @@ class DrinkCard extends Component {
 class DrinkCardRow extends Component {
     render() {
         let drinkCardArray = this.props.drink.drinks.map((item) => {
-            let drinkOption = this.props.drink.selectedDrink;
+            let drinkOption = this.props.drink.selectedDrink;          
             if (drinkOption.includes(item.type) && drinkOption.includes(item.mood)) {
             return (<DrinkCard value={item} key={item.drink} />);
             }
         })
+        let drinkHeader = "";
+        let drinkOption = this.props.drink.selectedDrink;     
+        
+        if (drinkOption === "" || drinkOption === "DEFAULT") {
+            drinkHeader = "";
+        }
+        else {
+            drinkHeader = "Chosen Drink for you!"
+        }
         return (
             <div className="drink-chosen random">
-                <h2>Drink Chosen for you!</h2>
+                <h2>{drinkHeader}</h2>
                 {drinkCardArray}
             </div>
         );

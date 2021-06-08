@@ -17,8 +17,12 @@ export class BarsPage extends Component {
         this.state = {
             bar: [],
             keys: [],
-            selectedDrink: ''
+            selectedZipcode: ''
         };
+    }
+    updateSelection = (selection) => {
+        this.setState({ selectedZipcode: selection });
+
     }
 
     componentDidMount() {
@@ -31,8 +35,10 @@ export class BarsPage extends Component {
         return (
             <div>
                 <BarIntroText />
-                <SearchBar />
-                <div> <BarCardRow barState={this.state}/></div>
+                <ZipSelection barState={this.state} updateSelection={this.updateSelection} />
+                <br />
+                <div> <BarCardRow barState={this.state} /></div>
+
             </div>
         )
     }
@@ -55,52 +61,130 @@ class SearchBar extends Component {
     render() {
         return (
             <MDBCol md="6">
+                <label htmlFor="header-search">
+                    <span className="visually-hidden">Search bars</span>
+                </label>
                 <div className="active-pink-3 active-pink-4 mb-4">
-                    <input className="form-control" type="text" placeholder="Search" aria-label="Search"/>
+                    <input className="form-control" type="text" placeholder="Search" aria-label="Search" />
                 </div>
             </MDBCol>
         );
     }
 }
 
-class BarCard extends Component { 
+class ZipCodes extends Component {
     render() {
-        console.log(this.props.bar);
-        const mystyle = {
-            border: '1px black',
-            marginTop: '10px',
-            float: 'right'
-          };
         return (
-                <Card style={mystyle}>
-                    <CardImg top width="25%" src={this.props.bar.img} alt={this.props.bar.imgalt} />
-                    <CardBody>
-                        <CardTitle> Bar Name: {this.props.bar.name}</CardTitle>
-                        <CardSubtitle> Zipcode: {this.props.bar.zipcode}</CardSubtitle>
-                        <CardText> Address: {this.props.bar.address}</CardText>
-                        <Button><a href={this.props.bar.website} target="_blank">{'Visit Website'}</a></Button>
-                        <Button><a href={this.props.bar.website} target="_blank">{'Bookmark Me'}</a></Button>
-                    </CardBody>
-                </Card>
-              
+            <option value={(this.props.value.zipcode)} >
+                {console.log("currently in zipcode comp: " + this.props.value.zipcode)}
+                {this.props.value.zipcode}
+            </option>
         );
     }
 }
 
-class BarCardRow extends Component { 
+class ZipSelection extends Component {
+
+    handleClick = (item) => {
+        this.props.updateSelection(item.target.value);
+        this.selectedZipcode = item.target.value;
+
+    }
+
+    render() {
+        let zipArray = [];
+        console.log(this.props.barState.bar);
+        this.props.barState.bar.map((item) => {
+            if (!zipArray.includes(item.zipcode)) {
+                zipArray.push(<ZipCodes value={item} key={item.id} />);
+                //console.log(item.zipcode);
+                //console.log(item);
+            }
+            return zipArray;
+        });
+
+        return (
+            <div className='zip-selection'>
+                <div className='container-fluid ingredients-box'>
+                    <div className="titles">
+                        <div className="col-lg-9">
+                            <form>
+                                <label htmlFor="moods" className="main-title">
+                                    Choose Your Neighborhood By Zipcode
+                                    <div >
+                                        <select name="types" id="types" onChange={this.handleClick}>
+                                            <option value="DEFAULT">{'-- select a neighborhood --'}</option>
+                                            {zipArray}
+                                        </select>
+                                    </div>
+
+                                </label><br />
+                                <br />
+
+
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
+
+class BarCard extends Component {
+    render() {
+        //console.log(this.props.bar);
+        const mystyle = {
+            border: '1px white',
+            marginTop: '10px',
+            marginBottom: '10px',
+            float: 'center'
+        };
+        return (
+            <Card style={mystyle}>
+                <CardImg className="bar-card-images" src={this.props.bar.img} alt={this.props.bar.imgalt} />
+                <CardBody>
+                    <CardTitle> Bar Name: {this.props.bar.name}</CardTitle>
+                    <CardSubtitle> Zipcode: {this.props.bar.zipcode}</CardSubtitle>
+                    <CardText> Address: {this.props.bar.address}</CardText>
+                    <Button><a href={this.props.bar.website} target="_blank">{'Visit Website'}</a></Button>
+                    <Button><a href={this.props.bar.website} target="_blank">{'Bookmark Me'}</a></Button>
+                </CardBody>
+            </Card>
+
+        );
+    }
+}
+
+class BarCardRow extends Component {
     render() {
         let barCardArray = this.props.barState.bar.map((item) => {
-            //let drinkOption = this.props.drink.selectedDrink;
-            //if (drinkOption.includes(item.type) && drinkOption.includes(item.mood)) {
-            return (<BarCard bar={item} key={item.id} />);
-           // }
+            let barOption = this.props.barState.selectedZipcode;
+            if (barOption.includes(item.zipcode)) {
+                //console.log("in barCardRow rn! " + {item})
+                return (<BarCard bar={item} key={item.id} />);
+
+            }
         })
+        let barHeader = "";
+        let zipOption = this.props.barState.selectedZipcode;
+
+        if (zipOption === "" || zipOption === "DEFAULT") {
+            barHeader = "";
+        }
+        else {
+            barHeader = "Bars In Your Area"
+        }
         return (
-            <div className="drink-chosen random">
-                <h2>Bars Chosen For You</h2>
+            <div className="bar-chosen random">
+                <h2>{barHeader}</h2>
                 {barCardArray}
             </div>
         );
     }
 }
+
+
 

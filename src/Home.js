@@ -81,11 +81,11 @@ class DrinkCard extends Component {
         const mystyle = {
             border: '1px black',
             marginTop: '10px',
-            float: 'right'
+            float: 'center'
           };
         return (
                 <Card style={mystyle}>
-                    <CardImg top width="25%" src={this.props.value.image} alt="Card image cap" />
+                    <CardImg className="bar-card-images" src={this.props.value.image} alt="Card image cap" />
                     <CardBody>
                         <CardTitle> Your Drink is: {this.props.value.drink}</CardTitle>
                         <CardText> Recipe created by: {this.props.value.author}</CardText>

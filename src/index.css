@@ -46,7 +46,7 @@ div.card {
 
 .row {
    margin-right:0px;
-   margin-left: 700px;
+   margin-left: 0%;
    margin-top: 0px;
 }
 
@@ -67,4 +67,9 @@ div.drink-chosen.random {
    box-shadow: 0 0 0 1px #f48fb1;
  }
 
- 
+ .bar-card-images { 
+  
+   width:  200px;
+   height: 200px;
+   
+ }

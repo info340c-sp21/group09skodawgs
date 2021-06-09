@@ -9,6 +9,8 @@ import _ from 'lodash';
 import * as d3c from 'd3-collection';
 import * as d3 from 'd3';
 import './index.css'; //import css file!
+import firebase from 'firebase/app';
+
 
 class App2 extends Component {
     render() {

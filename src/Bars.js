@@ -8,6 +8,8 @@ import {
 } from 'reactstrap';
 import './index.css'; //import css file!
 import { MDBCol } from "mdbreact";
+import 'firebase/database';
+import firebase from 'firebase/app';
 
 
 export class BarsPage extends Component {

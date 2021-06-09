@@ -27,6 +27,15 @@ export class BarsPage extends Component {
 
     }
 
+    handleChange(event) {
+        let field = event.target.name; // which input
+        let value = event.target.value; // what value
+
+        let changes = {}; // object to hold changes
+        changes[field] = value; // change this field
+        this.setState(changes); // update state
+    }
+
     componentDidMount() {
         d3.csv('data/bars.csv').then((d) => {
             this.setState({ bar: d, keys: d3c.keys(d[0]) });

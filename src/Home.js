@@ -6,6 +6,7 @@ import {
     Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle, Button
 } from 'reactstrap';
+import firebase from 'firebase/app';
 import './index.css'; //import css file!
 
 export class HomePage extends Component {
@@ -28,6 +29,7 @@ export class HomePage extends Component {
         d3.csv('data/data.csv').then((d) => {
             this.setState({ drinks: d, keys: d3c.keys(d[0]) });
         });
+        // this.data = firebase.database().ref('data');
     }
     render() {
         return (

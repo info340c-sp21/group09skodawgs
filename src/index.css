@@ -1,8 +1,10 @@
+Index.css
+
 h1{
    font-size:93pt;
    font-weight: bold;
    margin-left: 0px;
-   margin-right: 700px;
+   margin-right: 40px;
 }
 body{
    /*Color grey for debug*/
@@ -46,17 +48,20 @@ div.card {
 
 .row {
    margin-right:0px;
-   margin-left: 0%;
+   margin-left: 500px;
    margin-top: 0px;
 }
 
 div.drink-chosen {
-   padding: 15px 20px;
-}
-
-div.drink-chosen.random {
+   position: right;
+   right: -5px;
+   width: 200px;
+   bottom: 30px;
+   margin-right: 90px;
+   float:right;
    margin-top: 15px;
-}
+   }
+
 
 .active-pink-4 input[type="text"]:focus:not([readonly]) {
    border: 1px solid #f48fb1;
@@ -68,8 +73,6 @@ div.drink-chosen.random {
  }
 
  .bar-card-images { 
-  
    width:  200px;
    height: 200px;
-   
  }

@@ -34,13 +34,11 @@ export class HomePage extends Component {
     render() {
         return (
             <div className="home-elements">
+                <DrinkCardRow drink={this.state}/>
                 <IntroText selDrink={this.state.selectedDrink}></IntroText>
                 <br />
-                <DrinkSelection drink={this.state} updateSelection={this.updateSelection} />
-                <br />
-                <div className='row'> <DrinkCardRow drink={this.state}/></div>
-                
-
+                <DrinkSelection drink={this.state} updateSelection={this.updateSelection} /> 
+                <br />           
             </div>
         );
     }
@@ -86,7 +84,7 @@ class DrinkCard extends Component {
             float: 'center'
           };
         return (
-                <Card style={mystyle}>
+                <Card style={mystyle}>                    
                     <CardImg className="bar-card-images" src={this.props.value.image} alt="Card image cap" />
                     <CardBody>
                         <CardTitle> Your Drink is: {this.props.value.drink}</CardTitle>

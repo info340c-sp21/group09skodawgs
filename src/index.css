@@ -77,3 +77,10 @@ div.drink-chosen {
    width:  200px;
    height: 200px;
  }
+
+ .flex-1 {
+    display: flex;
+ }
+ .flex-container2 {
+   display: flex; 
+ }

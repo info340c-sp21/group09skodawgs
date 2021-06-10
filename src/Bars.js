@@ -41,8 +41,21 @@ export class BarsPage extends Component {
             this.setState({ bar: d, keys: d3c.keys(d[0]) });
             console.log("indidmount rn: ", this.state);
         });
+        // this.barsRef = firebase.database().ref('bars');
+
+        // // When the "tweets" *value* changes, update the state appropriately (`tweets`)
+        // this.barsRef.on('value', (snapshot) => { 
+        //     let bar = snapshot.val();
+        //     this.setState({bar: bar});
+        //     console.log("In firebase did mount: " + this.state );
+        // });
+
     }
     render() {
+        //let rumbaRef = firebase.database().ref('bars').child('rumbaBar');
+       
+         //rumbaRef.update({testName2: "testvalue2TEST HIII"}).catch(err=>console.log(err));
+        
         return (
             <div>
                 <BarIntroText />

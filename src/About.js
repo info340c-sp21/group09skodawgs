@@ -25,6 +25,7 @@ class AboutText extends Component {
             marginLeft: '20px',
             float: 'center'
         };
+        const jade = "img/jade.png";
         return (
             <div className="about-text">
                 <h2>About Our Project</h2>
@@ -37,7 +38,7 @@ class AboutText extends Component {
                 <div class = "flex-container2">
                 <div class="flex1">
                 <Card style={mystyle}>
-                <CardImg className="about-images" src={"jade.png"} alt="image of woman with short hair and hoop earrings" />
+                <CardImg className="about-images" img src={jade} alt="image of woman with hoop earrings" />
                 <CardBody>
                     <CardTitle>Jade D'Souza</CardTitle>
                     <CardText>email: jadedsou@uw.edu </CardText>
@@ -47,7 +48,7 @@ class AboutText extends Component {
                 </div>
                 <div class="flex1">
                 <Card style={mystyle}>
-                <CardImg className="about-images" img src={"./img/nick.png"} alt="image of girl with short hair and hoop earrings" />
+                <CardImg className="about-images" img src={"./img/nick.png"} alt="image of a man with a corndog" />
                 <CardBody>
                     <CardTitle>Nicholas Liang</CardTitle>
                     <CardText>email: liangn@uw.edu </CardText>
@@ -55,9 +56,27 @@ class AboutText extends Component {
                 </CardBody>
                 </Card>
                 </div>
+                <div class="flex1">
+                <Card style={mystyle}>
+                <CardImg className="about-images" img src={"img/kavya.png"} alt="image of woman with winged eyeliner" />
+                <CardBody>
+                <CardTitle>Kavya Iyer</CardTitle>
+                    <CardText>email: kavyai@uw.edu </CardText>
+                    <CardText>favorite drink: moscowkavyai@uw.edu</CardText>
+                </CardBody>
+                </Card>
                 </div>
-                    <li>Kavya Iyer - kavyai@uw.edu</li>
-                    <li>Israel Martinez - israelma@uw.edu</li>
+                <div class="flex1">
+                <Card style={mystyle}>
+                <CardImg className="about-images" img src={"./img/israel.png"} alt="image of a man by a sunset" />
+                <CardBody>
+                <CardTitle>Israel Martinez</CardTitle>
+                    <CardText>email: israelma@uw.edu </CardText>
+                    <CardText>favorite drink: AMF (look up the full form ;))!</CardText>
+                </CardBody>
+                </Card>
+                </div>
+                </div>
                 </ul>
                 
             </div>

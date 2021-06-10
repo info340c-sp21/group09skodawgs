@@ -83,3 +83,7 @@ div.drink-chosen {
  .flex-container2 {
    display: flex; 
  }
+ .about-images {
+   width:  210px;
+   height: 200px;
+ }

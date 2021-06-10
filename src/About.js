@@ -41,6 +41,7 @@ class OurTeam extends Component {
             marginLeft: '20px',
             float: 'center'
         };
+        
         return (
         <div>
         <h2>Authors and Contact Information</h2>

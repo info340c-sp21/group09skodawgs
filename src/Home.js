@@ -99,21 +99,59 @@ class DrinkCard extends Component {
 
 class DrinkCardRow extends Component {
     render() {
+        let drinkKeys = this.props.drink.drinks.map((item) => { 
+            return item;
+            });
+        
+        let num = Math.floor(Math.random() * drinkKeys.length);
+
         let drinkCardArray = this.props.drink.drinks.map((item) => {
             let drinkOption = this.props.drink.selectedDrink;          
+            //we return a drink card based on the users input
             if (drinkOption.includes(item.type) && drinkOption.includes(item.mood)) {
             return (<DrinkCard value={item} key={item.drink} />);
             }
         })
+
+    
+        //try me functionality here
+        if (num == 10) {
+            num = 9;
+        }
+
+        let emptyArrayFlag = true;
+        for (var i = 0; i < drinkCardArray.length; i++) {
+            if (drinkCardArray[i] != null) {
+                emptyArrayFlag = false;
+            }
+        }
+        let drinkRandomlyChosen = drinkKeys[num];
+            let emptyArraysomethingidk = drinkKeys.map((item) => {
+            if (drinkRandomlyChosen == item) {
+            return (<DrinkCard value={item} key={item.drink} />);
+            }
+        }
+        )
+        if (emptyArrayFlag) {
+            let count = 0;
+             drinkCardArray = this.props.drink.drinks.map((item) => {
+                if (item == drinkRandomlyChosen) {
+                return (<DrinkCard value={item} key={item.drink} />);
+                }
+            })
+        }
+        
+        //making sure that card is only displayed when drink is chosen
         let drinkHeader = "";
         let drinkOption = this.props.drink.selectedDrink;     
-        
         if (drinkOption === "" || drinkOption === "DEFAULT") {
             drinkHeader = "";
         }
         else {
             drinkHeader = "Chosen Drink for you!"
         }
+
+        //returning the drink
         return (
             <div className="drink-chosen random">
                 <h2>{drinkHeader}</h2>

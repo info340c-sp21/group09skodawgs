@@ -248,7 +248,7 @@ class DrinkSelection extends Component {
 
                             </form>
 
-                            <div className="col-lg-offset-3 col-lg-3">
+                            <div className="col-lg-offset-0 col-lg-0">
                                 <div className='random-centered random-title'> can't decide?
                                     <div>
                                         <button className="random random-centered button main-title" onClick={this.handleClick}>Try Me!</button>

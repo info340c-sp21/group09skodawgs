@@ -37,9 +37,18 @@ export class BarsPage extends Component {
     }
 
     componentDidMount() {
-        d3.csv('data/bars.csv').then((d) => {
-            this.setState({ bar: d, keys: d3c.keys(d[0]) });
-            console.log("indidmount rn: ", this.state);
+        // d3.csv('data/bars.csv').then((d) => {
+        //     this.setState({ bar: d, keys: d3c.keys(d[0]) });
+        //     console.log("indidmount rn: ", this.state);
+        // });
+        this.barJSON = firebase.database().ref('bars')
+        this.barJSON.on('value', (snapshot) => {
+            let tweets = snapshot.val();
+            let d = Object.values(tweets);
+            let k = Object.keys(d[0]);
+            
+
+            this.setState({ bar: d, keys: k });
         });
         // this.barsRef = firebase.database().ref('bars');
 
@@ -53,9 +62,9 @@ export class BarsPage extends Component {
     }
     render() {
         //let rumbaRef = firebase.database().ref('bars').child('rumbaBar');
-       
-         //rumbaRef.update({testName2: "testvalue2TEST HIII"}).catch(err=>console.log(err));
-        
+
+        //rumbaRef.update({testName2: "testvalue2TEST HIII"}).catch(err=>console.log(err));
+
         return (
             <div>
                 <BarIntroText />
@@ -157,6 +166,21 @@ class ZipSelection extends Component {
 }
 
 class BarCard extends Component {
+    handleButtonClick = (item) => {
+        //this.props.updateSelection(item.target.value);
+        //this.selectedZipcode = item.target.value;
+        console.log("in handle button clcik" + item);
+        //this.props.updateBookmarks(item);
+        let barsRef = firebase.database().ref('bars');
+        let bookmarks = barsRef.child(this.props.id + '/bookmarks');
+        //console.log(this.props);
+        // Issue a transaction on the number of likes to increase it by 1
+        bookmarks.transaction((d) => d + 1);
+        //console.log(barsRef.child(this.props.id + '/address'));
+        console.log(this.props.bookies);
+
+    }
+
     render() {
         //console.log(this.props.bar);
         const mystyle = {
@@ -165,7 +189,7 @@ class BarCard extends Component {
             marginBottom: '10px',
             float: 'center'
         };
-        const buttonStyle = {marginLeft: '10px'};
+        const buttonStyle = { marginLeft: '10px' };
         return (
             <Card style={mystyle}>
                 <CardImg className="bar-card-images" src={this.props.bar.img} alt={this.props.bar.imgalt} />
@@ -174,7 +198,8 @@ class BarCard extends Component {
                     <CardSubtitle> Zipcode: {this.props.bar.zipcode}</CardSubtitle>
                     <CardText> Address: {this.props.bar.address}</CardText>
                     <Button><a href={this.props.bar.website} target="_blank">{'Visit Website'}</a></Button>
-                    <Button style={buttonStyle}><a href={this.props.bar.website} target="_blank">{'Bookmark Me'}</a></Button>
+
+                    <Button style={buttonStyle} onClick={this.handleButtonClick}>Bookmark: {this.props.bookies}</Button>
                 </CardBody>
             </Card>
 
@@ -183,12 +208,19 @@ class BarCard extends Component {
 }
 
 class BarCardRow extends Component {
+    updateBookmarks(cardId) {
+        // Create a reference to the number of likes
+        let barsRef = firebase.database().ref('bars');
+        let bookmarks = barsRef.child(cardId + '/bookmarks');
+        // Issue a transaction on the number of likes to increase it by 1
+        bookmarks.transaction((d) => d + 1);
+    }
     render() {
         let barCardArray = this.props.barState.bar.map((item) => {
             let barOption = this.props.barState.selectedZipcode;
             if (barOption.includes(item.zipcode)) {
                 //console.log("in barCardRow rn! " + {item})
-                return (<BarCard bar={item} key={item.id} />);
+                return (<BarCard bar={item} key={item.id} update={(item) => this.updateBookmarks(item.id)} id={item.id} key={item} bookies={item.bookmarks} />);
 
             }
         })
@@ -209,6 +241,7 @@ class BarCardRow extends Component {
         );
     }
 }
+
 
 
 

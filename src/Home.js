@@ -141,7 +141,7 @@ class DrinkCardRow extends Component {
         
         if (emptyArrayFlag) {
             drinkCardArray = this.props.drink.drinks.map((item) => {
-                if (item == drinkRandomlyChosen) {
+                if (item === drinkRandomlyChosen) {
                     return (<DrinkCard value={item} key={item.drink} />);
                 }
             })

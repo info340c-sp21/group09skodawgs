@@ -45,7 +45,6 @@ export class BarsPage extends Component {
             <div>
                 <BarIntroText />
                 <ZipSelection barState={this.state} updateSelection={this.updateSelection} />
-                <br />
                 <div> <BarCardRow barState={this.state} /></div>
 
             </div>
@@ -188,7 +187,7 @@ class BarCardRow extends Component {
             barHeader = "Bars In Your Area"
         }
         return (
-            <div className="bar-chosen random">
+            <div className="bar-chosen-random">
                 <h2>{barHeader}</h2>
                 {barCardArray}
             </div>

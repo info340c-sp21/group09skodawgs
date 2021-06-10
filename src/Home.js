@@ -113,7 +113,7 @@ class DrinkCardRow extends Component {
             }
         })
 
-
+        
         //try me functionality here
         if (num == 10) {
             num = 9;
@@ -126,14 +126,8 @@ class DrinkCardRow extends Component {
             }
         }
         let drinkRandomlyChosen = drinkKeys[num];
-        let emptyArraysomethingidk = drinkKeys.map((item) => {
-            if (drinkRandomlyChosen == item) {
-                return (<DrinkCard value={item} key={item.drink} />);
-            }
-        }
-        )
+        
         if (emptyArrayFlag) {
-            let count = 0;
             drinkCardArray = this.props.drink.drinks.map((item) => {
                 if (item == drinkRandomlyChosen) {
                     return (<DrinkCard value={item} key={item.drink} />);
@@ -144,6 +138,9 @@ class DrinkCardRow extends Component {
         //making sure that card is only displayed when drink is chosen
         let drinkHeader = "";
         let drinkOption = this.props.drink.selectedDrink;
+        if (emptyArrayFlag) {
+            drinkOption = "true";
+        } 
         if (drinkOption === "" || drinkOption === "DEFAULT") {
             drinkHeader = "";
         }

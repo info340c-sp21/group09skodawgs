@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import {
+    Card, CardImg, CardText, CardBody,
+    CardTitle, CardSubtitle, Button
+} from 'reactstrap';
 
 
 export class About extends Component { 
@@ -14,6 +18,13 @@ export class About extends Component {
 
 class AboutText extends Component { 
     render() { 
+        const mystyle = {
+            border: '1px white',
+            marginTop: '10px',
+            marginBottom: '10px',
+            marginLeft: '20px',
+            float: 'center'
+        };
         return (
             <div className="about-text">
                 <h2>About Our Project</h2>
@@ -23,8 +34,28 @@ class AboutText extends Component {
 
                 <h2>Authors and Contact Information</h2>
                 <ul>
-                    <li>Jade D'Souza - jadedsou@uw.edu</li>
-                    <li>Nicholas Liang - liangn@uw.edu</li>
+                <div class = "flex-container2">
+                <div class="flex1">
+                <Card style={mystyle}>
+                <CardImg className="about-images" src={"jade.png"} alt="image of woman with short hair and hoop earrings" />
+                <CardBody>
+                    <CardTitle>Jade D'Souza</CardTitle>
+                    <CardText>email: jadedsou@uw.edu </CardText>
+                    <CardText>favorite drink: pina colada </CardText>
+                </CardBody>
+                </Card>
+                </div>
+                <div class="flex1">
+                <Card style={mystyle}>
+                <CardImg className="about-images" img src={"./img/nick.png"} alt="image of girl with short hair and hoop earrings" />
+                <CardBody>
+                    <CardTitle>Nicholas Liang</CardTitle>
+                    <CardText>email: liangn@uw.edu </CardText>
+                    <CardText>favorite drink: tequila shot, salt + lime</CardText>
+                </CardBody>
+                </Card>
+                </div>
+                </div>
                     <li>Kavya Iyer - kavyai@uw.edu</li>
                     <li>Israel Martinez - israelma@uw.edu</li>
                 </ul>

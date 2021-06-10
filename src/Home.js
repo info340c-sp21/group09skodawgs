@@ -21,7 +21,7 @@ export class HomePage extends Component {
     }
 
     updateSelection = (selection) => {
-        this.setState({selectedDrink: selection});
+        this.setState({ selectedDrink: selection });
 
     }
 
@@ -34,13 +34,11 @@ export class HomePage extends Component {
     render() {
         return (
             <div className="home-elements">
+                <DrinkCardRow drink={this.state} />
                 <IntroText selDrink={this.state.selectedDrink}></IntroText>
                 <br />
                 <DrinkSelection drink={this.state} updateSelection={this.updateSelection} />
                 <br />
-                <div className='row'> <DrinkCardRow drink={this.state}/></div>
-                
-
             </div>
         );
     }
@@ -84,38 +82,73 @@ class DrinkCard extends Component {
             border: '1px black',
             marginTop: '10px',
             float: 'center'
-          };
+        };
         return (
-                <Card style={mystyle}>
-                    <CardImg className="bar-card-images" src={this.props.value.image} alt="Card image cap" />
-                    <CardBody>
-                        <CardTitle> Your Drink is: {this.props.value.drink}</CardTitle>
-                        <CardText> Recipe created by: {this.props.value.author}</CardText>
-                        <Button><a href={this.props.value.link} target="_blank">{'View Recipe!'}</a></Button>
-                    </CardBody>
-                </Card>
-              
+            <Card style={mystyle}>
+                <CardImg className="bar-card-images" src={this.props.value.image} alt="Card image cap" />
+                <CardBody>
+                    <CardTitle> Your Drink is: {this.props.value.drink}</CardTitle>
+                    <CardText> Recipe created by: {this.props.value.author}</CardText>
+                    <Button><a href={this.props.value.link} target="_blank">{'View Recipe!'}</a></Button>
+                </CardBody>
+            </Card>
+
         );
     }
 }
 
 class DrinkCardRow extends Component {
     render() {
+        let drinkKeys = this.props.drink.drinks.map((item) => {
+            return item;
+        });
+
+        let num = Math.floor(Math.random() * drinkKeys.length);
+
         let drinkCardArray = this.props.drink.drinks.map((item) => {
-            let drinkOption = this.props.drink.selectedDrink;          
+            let drinkOption = this.props.drink.selectedDrink;
+            //we return a drink card based on the users input
             if (drinkOption.includes(item.type) && drinkOption.includes(item.mood)) {
-            return (<DrinkCard value={item} key={item.drink} />);
+                return (<DrinkCard value={item} key={item.drink} />);
             }
         })
-        let drinkHeader = "";
-        let drinkOption = this.props.drink.selectedDrink;     
+
         
+        //try me functionality here
+        if (num == 10) {
+            num = 9;
+        }
+
+        let emptyArrayFlag = true;
+        for (var i = 0; i < drinkCardArray.length; i++) {
+            if (drinkCardArray[i] != null) {
+                emptyArrayFlag = false;
+            }
+        }
+        let drinkRandomlyChosen = drinkKeys[num];
+        
+        if (emptyArrayFlag) {
+            drinkCardArray = this.props.drink.drinks.map((item) => {
+                if (item == drinkRandomlyChosen) {
+                    return (<DrinkCard value={item} key={item.drink} />);
+                }
+            })
+        }
+
+        //making sure that card is only displayed when drink is chosen
+        let drinkHeader = "";
+        let drinkOption = this.props.drink.selectedDrink;
+        if (emptyArrayFlag) {
+            drinkOption = "true";
+        } 
         if (drinkOption === "" || drinkOption === "DEFAULT") {
             drinkHeader = "";
         }
         else {
             drinkHeader = "Chosen Drink for you!"
         }
+
+        //returning the drink
         return (
             <div className="drink-chosen random">
                 <h2>{drinkHeader}</h2>
@@ -130,7 +163,7 @@ class OneMood extends Component {
 
     render() {
         return (
-            <option value={(this.props.value.mood)+(this.props.value.type)} >
+            <option value={(this.props.value.mood) + (this.props.value.type)} >
                 {this.props.value.mood + ' '} {this.props.value.type + ' beverage'}
             </option>
         );
@@ -166,7 +199,7 @@ class DrinkSelection extends Component {
                 //const handleClick = () => {this.props.updateSelection(this.props.drink.drinks.mood)
                 //this.handleClick(item.mood)
                 moodArray.push(<OneMood value={item} key={item.link} />);
-                
+
 
             }
             return moodArray;
@@ -189,6 +222,7 @@ class DrinkSelection extends Component {
                                         </select>
                                     </div>
 
+
                                 </label><br />
                                 <br />
                                 {/* <br />
@@ -201,6 +235,14 @@ class DrinkSelection extends Component {
                                 <br /> */}
 
                             </form>
+
+                            <div className="col-lg-offset-3 col-lg-3">
+                                <div className='random-centered random-title'> can't decide?
+                                    <div>
+                                        <button className="random random-centered button main-title" onClick={this.handleClick}>Try Me!</button>
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
 
@@ -221,10 +263,10 @@ class DrinkSelection extends Component {
 //         if (drinkType == 'alcoholic' && num == 4) {
 //             num = num - 1;
 //         }
-    
+
 //         return renderDrink(drinkType, DRINKS[drinkType][num].mood);
 //     }
-    
+
 //     render() {
 //         return (
 

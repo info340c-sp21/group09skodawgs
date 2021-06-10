@@ -43,9 +43,6 @@ class TopBar extends Component {
                         <h1 className="top-logo drinkingchoices">Drink Choices</h1>
                     </div>
                     <div className="col-lg-offset-3 col-lg-3">
-                        <div className='random-centered random-title'> can't decide?
-                            <TryMe ></TryMe>
-                        </div>
                     </div>
                 </div>
             </header>
@@ -84,11 +81,7 @@ class TryMe extends Component {
     
     render() {
         this.getRandom();
-        return (
-            <div>
-                <button className="random random-centered button main-title">Try Me!</button>
-            </div>
-        );
+        return "cutie";
     }
 }
 

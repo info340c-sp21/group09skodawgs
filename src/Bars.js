@@ -60,7 +60,6 @@ export class BarsPage extends Component {
             <div>
                 <BarIntroText />
                 <ZipSelection barState={this.state} updateSelection={this.updateSelection} />
-                <br />
                 <div> <BarCardRow barState={this.state} /></div>
 
             </div>
@@ -166,6 +165,7 @@ class BarCard extends Component {
             marginBottom: '10px',
             float: 'center'
         };
+        const buttonStyle = {marginLeft: '10px'};
         return (
             <Card style={mystyle}>
                 <CardImg className="bar-card-images" src={this.props.bar.img} alt={this.props.bar.imgalt} />
@@ -174,7 +174,7 @@ class BarCard extends Component {
                     <CardSubtitle> Zipcode: {this.props.bar.zipcode}</CardSubtitle>
                     <CardText> Address: {this.props.bar.address}</CardText>
                     <Button><a href={this.props.bar.website} target="_blank">{'Visit Website'}</a></Button>
-                    <Button><a href={this.props.bar.website} target="_blank">{'Bookmark Me'}</a></Button>
+                    <Button style={buttonStyle}><a href={this.props.bar.website} target="_blank">{'Bookmark Me'}</a></Button>
                 </CardBody>
             </Card>
 
@@ -202,7 +202,7 @@ class BarCardRow extends Component {
             barHeader = "Bars In Your Area"
         }
         return (
-            <div className="bar-chosen random">
+            <div className="bar-chosen-random">
                 <h2>{barHeader}</h2>
                 {barCardArray}
             </div>

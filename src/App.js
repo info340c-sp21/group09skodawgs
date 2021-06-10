@@ -39,7 +39,7 @@ class TopBar extends Component {
         return (
             <header className="container-fluid head">
                 <div className="topBar">
-                    <div className="col-lg-offset-2 col-lg-4">
+                    <div className="col-lg-offset-1 col-lg-0">
                         <h1 className="top-logo drinkingchoices">Drink Choices</h1>
                     </div>
                     <div className="col-lg-offset-3 col-lg-3">

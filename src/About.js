@@ -10,6 +10,7 @@ export class About extends Component {
         return (
             <div className="about">
                 <AboutText></AboutText>
+                <OurTeam></OurTeam>
             </div>
         ) 
         
@@ -18,6 +19,21 @@ export class About extends Component {
 
 class AboutText extends Component { 
     render() { 
+        return (
+            <div className="about-text">
+                <h2>About Our Project</h2>
+                <p>Everyone deserves to be able to sit back and enjoy their time off after working for long periods. With so much energy put into daily tasks, how can you choose a drink that will feel rewarding and match what you need?</p>
+                <p>There's no need to invest anymore energy that you may not have. In our app, you can get a selection of drinks (alcoholic or non-alcoholic) based on how you are feeling. Simply choose a "vibe" that you are feeling and we will suggest drinks that will hit the spot. It will also tell you where you can purchase the drink at a local business.</p>
+                <p>Enjoy experimenting with drink choices. A reminder for alcoholic drinkers to <i>drink responsibly</i>!</p>                
+            </div>
+        ) 
+        
+    }
+}
+
+class OurTeam extends Component {
+        render() { 
+        const jade = "img/jade.png";
         const mystyle = {
             border: '1px white',
             marginTop: '10px',
@@ -25,15 +41,9 @@ class AboutText extends Component {
             marginLeft: '20px',
             float: 'center'
         };
-        const jade = "img/jade.png";
         return (
-            <div className="about-text">
-                <h2>About Our Project</h2>
-                <p>Everyone deserves to be able to sit back and enjoy their time off after working for long periods. With so much energy put into daily tasks, how can you choose a drink that will feel rewarding and match what you need?</p>
-                <p>There's no need to invest anymore energy that you may not have. In our app, you can get a selection of drinks (alcoholic or non-alcoholic) based on how you are feeling. Simply choose a "vibe" that you are feeling and we will suggest drinks that will hit the spot. It will also tell you where you can purchase the drink at a local business.</p>
-                <p>Enjoy experimenting with drink choices. A reminder for alcoholic drinkers to <i>drink responsibly</i>!</p>
-
-                <h2>Authors and Contact Information</h2>
+        <div>
+        <h2>Authors and Contact Information</h2>
                 <ul>
                 <div class = "flex-container2">
                 <div class="flex1">
@@ -78,9 +88,7 @@ class AboutText extends Component {
                 </div>
                 </div>
                 </ul>
-                
-            </div>
-        ) 
-        
+                </div>
+        )
     }
 }

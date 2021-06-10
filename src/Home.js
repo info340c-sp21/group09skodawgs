@@ -7,6 +7,7 @@ import {
     CardTitle, CardSubtitle, Button
 } from 'reactstrap';
 import firebase from 'firebase/app';
+import 'firebase/database';
 import './index.css'; //import css file!
 
 export class HomePage extends Component {
@@ -26,15 +27,26 @@ export class HomePage extends Component {
     }
 
     componentDidMount() {
-        d3.csv('data/data.csv').then((d) => {
-            this.setState({ drinks: d, keys: d3c.keys(d[0]) });
+        //d3.csv('data/data.csv').then((d) => {
+        //    this.setState({ drinks: d, keys: d3c.keys(d[0]) });
+        //});
+        //console.log(this.state.drinks, "this.state.drinks"); //this is child nodes of each parent
+        this.data = firebase.database().ref('data')
+        this.data.on('value', (snapshot) => { 
+            let tweets = snapshot.val();
+            let d = Object.values(tweets);
+            let k = Object.keys(d[0]);
+
+            this.setState({drinks: d, keys: k});
         });
-        // this.data = firebase.database().ref('data');
+        //hello.set({author: "jade", drink: "AMF", image: "", link:"xxx.w..com", mood: "angry", type: "nonAlcoholic"}).catch(err => console.log(err));
+        //console.log(this.data, 'firebase');
     }
     render() {
         return (
             <div className="home-elements">
                 <DrinkCardRow drink={this.state} />
+                {console.log(this.state.keys, "this.state.keys2")} 
                 <IntroText selDrink={this.state.selectedDrink}></IntroText>
                 <br />
                 <DrinkSelection drink={this.state} updateSelection={this.updateSelection} />

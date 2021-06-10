@@ -124,11 +124,13 @@ class DrinkCardRow extends Component {
                 return (<DrinkCard value={item} key={item.drink} />);
             }
         })
-
         
         //try me functionality here
         if (num == 10) {
             num = 9;
+        }
+        if (num == 0) {
+            num = 2;
         }
 
         let emptyArrayFlag = true;
@@ -142,6 +144,7 @@ class DrinkCardRow extends Component {
         if (emptyArrayFlag) {
             drinkCardArray = this.props.drink.drinks.map((item) => {
                 if (item === drinkRandomlyChosen) {
+                    console.log(item.mood, item.type);
                     return (<DrinkCard value={item} key={item.drink} />);
                 }
             })

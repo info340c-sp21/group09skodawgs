@@ -33,7 +33,6 @@ class AboutText extends Component {
 
 class OurTeam extends Component {
         render() { 
-        const jade = "img/jade.png";
         const mystyle = {
             border: '1px white',
             marginTop: '10px',
@@ -49,7 +48,7 @@ class OurTeam extends Component {
                 <div class = "flex-container2">
                 <div class="flex1">
                 <Card style={mystyle}>
-                <CardImg className="about-images" img src={jade} alt="image of woman with hoop earrings" />
+                <CardImg className="about-images" img src={"img/jade.png"} alt="image of woman with hoop earrings" />
                 <CardBody>
                     <CardTitle>Jade D'Souza</CardTitle>
                     <CardText>email: jadedsou@uw.edu </CardText>
@@ -59,7 +58,7 @@ class OurTeam extends Component {
                 </div>
                 <div class="flex1">
                 <Card style={mystyle}>
-                <CardImg className="about-images" img src={"./img/nick.png"} alt="image of a man with a corndog" />
+                <CardImg className="about-images" img src={"img/nick.png"} alt="image of a man with a corndog" />
                 <CardBody>
                     <CardTitle>Nicholas Liang</CardTitle>
                     <CardText>email: liangn@uw.edu </CardText>
@@ -79,7 +78,7 @@ class OurTeam extends Component {
                 </div>
                 <div class="flex1">
                 <Card style={mystyle}>
-                <CardImg className="about-images" img src={"./img/israel.png"} alt="image of a man by a sunset" />
+                <CardImg className="about-images" img src={"img/israel.png"} alt="image of a man by a sunset" />
                 <CardBody>
                 <CardTitle>Israel Martinez</CardTitle>
                     <CardText>email: israelma@uw.edu </CardText>

@@ -189,7 +189,7 @@ class BarCard extends Component {
             marginBottom: '10px',
             float: 'center'
         };
-        const buttonStyle = { marginLeft: '10px' };
+        const buttonStyle = { marginLeft: '10px', color: '#9A0A35'};
         return (
             <Card style={mystyle}>
                 <CardImg className="bar-card-images" src={this.props.bar.img} alt={this.props.bar.imgalt} />

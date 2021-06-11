@@ -24,7 +24,6 @@ export class HomePage extends Component {
 
     updateSelection = (selection) => {
         this.setState({ selectedDrink: selection });
-
     }
 
     componentDidMount() {
@@ -100,7 +99,8 @@ class DrinkCard extends Component {
             <Card style={mystyle}>
                 <CardImg className="bar-card-images" src={this.props.value.image} alt="Card image cap" />
                 <CardBody>
-                    <CardTitle> Your Drink is: {this.props.value.drink}</CardTitle>
+                    <CardTitle tag="h5">{this.props.value.drink}</CardTitle>
+                    <CardSubtitle>Mood: {this.props.value.mood}</CardSubtitle>
                     <CardText> Recipe created by: {this.props.value.author}</CardText>
                     <Button><a href={this.props.value.link} target="_blank">{'View Recipe!'}</a></Button>
                 </CardBody>

@@ -1,8 +1,6 @@
 h1{
    font-size:93pt;
    font-weight: bold;
-   margin-left: 0px;
-   margin-right: 700px;
 }
 body{
    /*Color grey for debug*/
@@ -18,21 +16,22 @@ body{
    color:white;
 }
 .random-title{
-   font-family: 'Permanent Marker', cursive;
    font-size: 15pt;
-   margin-right: 92px;
-   float:right;
-   margin-top: 15px;
+   margin-top: 20px;
+   color: white;
+}
+.button {
+   display: flex;
 }
 button.random{
-   margin-top: 15px;
+   margin-top: 5px;
 }
 .button{
    border-radius: 50px;
    background-color: #58e5e1;
    border: none;
    padding: 15px 20px;
-   margin-right: 30px;
+   margin-right: 0px;
    font-family: 'Poppins', sans-serif;
 }
 
@@ -46,17 +45,20 @@ div.card {
 
 .row {
    margin-right:0px;
-   margin-left: 0%;
+   margin-left: 500px;
    margin-top: 0px;
 }
 
 div.drink-chosen {
-   padding: 15px 20px;
-}
-
-div.drink-chosen.random {
+   position: right;
+   right: -5px;
+   width: 200px;
+   bottom: 30px;
+   margin-right: 90px;
+   float:right;
    margin-top: 15px;
-}
+   }
+
 
 .active-pink-4 input[type="text"]:focus:not([readonly]) {
    border: 1px solid #f48fb1;
@@ -68,8 +70,17 @@ div.drink-chosen.random {
  }
 
  .bar-card-images { 
-  
    width:  200px;
    height: 200px;
-   
+ }
+
+ .flex-1 {
+    display: flex;
+ }
+ .flex-container2 {
+   display: flex; 
+ }
+ .about-images {
+   width:  210px;
+   height: 200px;
  }

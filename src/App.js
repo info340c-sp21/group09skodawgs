@@ -9,6 +9,8 @@ import _ from 'lodash';
 import * as d3c from 'd3-collection';
 import * as d3 from 'd3';
 import './index.css'; //import css file!
+import firebase from 'firebase/app';
+
 
 class App2 extends Component {
     render() {
@@ -37,13 +39,10 @@ class TopBar extends Component {
         return (
             <header className="container-fluid head">
                 <div className="topBar">
-                    <div className="col-lg-offset-2 col-lg-4">
+                    <div className="col-lg-offset-1 col-lg-0">
                         <h1 className="top-logo drinkingchoices">Drink Choices</h1>
                     </div>
                     <div className="col-lg-offset-3 col-lg-3">
-                        <div className='random-centered random-title'> can't decide?
-                            <TryMe ></TryMe>
-                        </div>
                     </div>
                 </div>
             </header>
@@ -82,11 +81,7 @@ class TryMe extends Component {
     
     render() {
         this.getRandom();
-        return (
-            <div>
-                <button className="random random-centered button main-title">Try Me!</button>
-            </div>
-        );
+        return "cutie";
     }
 }
 

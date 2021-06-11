@@ -16,6 +16,7 @@ export class HomePage extends Component {
         this.updateSelection = this.updateSelection.bind(this);
         this.state = {
             drinks: [],
+            randDrinks: [],
             keys: [],
             selectedDrink: '', 
             randomDrink: false
@@ -24,7 +25,12 @@ export class HomePage extends Component {
 
     updateSelection = (selection) => {
         this.setState({ selectedDrink: selection });
+        console.log(this.state.selectedDrink, this.state.randomDrink, 'combo');
+    }
 
+    updateRandom = (randBoolean) => {
+        this.setState({ randomDrink: randBoolean })
+        console.log(randBoolean, 'randbool');
     }
 
     componentDidMount() {
@@ -42,15 +48,24 @@ export class HomePage extends Component {
         });
         //hello.set({author: "jade", drink: "AMF", image: "", link:"xxx.w..com", mood: "angry", type: "nonAlcoholic"}).catch(err => console.log(err));
         //console.log(this.data, 'firebase');
+
+        this.randData = firebase.database().ref('random');
+        this.randData.on('value', (snapshot) => {
+            let rDrinks = snapshot.val();
+            let r = Object.values(rDrinks);
+            let k = Object.keys(r[0]);
+
+            this.setState({randDrinks: r, keys: k});
+        })
     }
     render() {
         return (
             <div className="home-elements">
                 <DrinkCardRow drink={this.state} />
-                {console.log(this.state.keys, "this.state.keys2")} 
+                {/* {console.log(this.state.keys, "this.state.keys2")}  */}
                 <IntroText selDrink={this.state.selectedDrink}></IntroText>
                 <br />
-                <DrinkSelection drink={this.state} updateSelection={this.updateSelection} />
+                <DrinkSelection drink={this.state} updateSelection={this.updateSelection} updateRandom={this.updateRandom}/>
                 <br />
             </div>
         );
@@ -100,7 +115,8 @@ class DrinkCard extends Component {
             <Card style={mystyle}>
                 <CardImg className="bar-card-images" src={this.props.value.image} alt="Card image cap" />
                 <CardBody>
-                    <CardTitle> Your Drink is: {this.props.value.drink}</CardTitle>
+                    <CardTitle tag="h5">{this.props.value.drink}</CardTitle>
+                    <CardSubtitle>Mood: {this.props.value.mood} {this.props.value.type}</CardSubtitle>
                     <CardText> Recipe created by: {this.props.value.author}</CardText>
                     <Button><a href={this.props.value.link} target="_blank">{'View Recipe!'}</a></Button>
                 </CardBody>
@@ -116,7 +132,7 @@ class DrinkCardRow extends Component {
             return item;
         });
 
-        let num = Math.floor(Math.random() * drinkKeys.length);
+        // let num = Math.floor(Math.random() * drinkKeys.length);
 
         let drinkCardArray = this.props.drink.drinks.map((item) => {
             let drinkOption = this.props.drink.selectedDrink;
@@ -125,14 +141,20 @@ class DrinkCardRow extends Component {
                 return (<DrinkCard value={item} key={item.drink} />);
             }
         })
+
+        let randKeys = this.props.drink.randDrinks.map((item) => {
+            return item;
+        });
+        let num = Math.floor(Math.random() * randKeys.length);
+        // console.log(randKeys, this.props.drink.randomDrink, num, 'randkeys');
         
         //try me functionality here
-        if (num == 10) {
-            num = 9;
-        }
-        if (num == 0) {
-            num = 2;
-        }
+        // if (num == 10) {
+        //     num = 9;
+        // }
+        // if (num == 0) {
+        //     num = 2;
+        // }
 
         let emptyArrayFlag = true;
         for (var i = 0; i < drinkCardArray.length; i++) {
@@ -140,16 +162,27 @@ class DrinkCardRow extends Component {
                 emptyArrayFlag = false;
             }
         }
-        let drinkRandomlyChosen = drinkKeys[num];
-        
-        if (emptyArrayFlag) {
-            drinkCardArray = this.props.drink.drinks.map((item) => {
+        let drinkRandomlyChosen = randKeys[num];
+        console.log(drinkRandomlyChosen, this.props.drink.randomDrink, 'randomdrink');
+
+        if (this.props.drink.randomDrink) {
+            drinkCardArray = this.props.drink.randDrinks.map((item) => {
+                // console.log(item);
                 if (item === drinkRandomlyChosen) {
-                    console.log(item.mood, item.type);
+                    // console.log(item.drink, 'randomcard');
                     return (<DrinkCard value={item} key={item.drink} />);
                 }
             })
         }
+        
+        // if (emptyArrayFlag) {
+        //     drinkCardArray = this.props.drink.drinks.map((item) => {
+        //         if (item === drinkRandomlyChosen) {
+        //             console.log(item.mood, item.type, 'mood type');
+        //             return (<DrinkCard value={item} key={item.drink} />);
+        //         }
+        //     })
+        // }
 
         //making sure that card is only displayed when drink is chosen
         let drinkHeader = "";
@@ -191,10 +224,15 @@ class DrinkSelection extends Component {
 
     handleClick = (item) => {
         this.props.updateSelection(item.target.value);
+        this.props.updateRandom(false);
         console.log(item.target.value, "in handle click!!!!!!!!");
         // this.setState({selectedDrink: item.target.value});
         this.selectedDrink = item.target.value;
 
+    }
+
+    randomClick = () => {
+        this.props.updateRandom(true);
     }
 
     render() {
@@ -208,7 +246,7 @@ class DrinkSelection extends Component {
         //         </option>
         //     )
         // })
-        let moodArray = [];
+        let moodArray = [<option value="DEFAULT">{'-- select a vibe --'}</option>];
 
         this.props.drink.drinks.map((item) => {
             if (!moodArray.includes(item.mood)) {
@@ -232,8 +270,8 @@ class DrinkSelection extends Component {
                                 <label htmlFor="moods" className="main-title">
                                     How are you feeling today?
                                     <div >
-                                        <select name="types" id="types" onChange={this.handleClick}>
-                                            <option value="DEFAULT">{'-- select a vibe --'}</option>
+                                        <select name="types" id="types" onChange={this.handleClick} defaultValue={moodArray[0]}>
+                                            {/* <option value="DEFAULT" selected defaultValue>{'-- select a vibe --'}</option> */}
                                             {moodArray}
                                         </select>
                                     </div>
@@ -255,7 +293,7 @@ class DrinkSelection extends Component {
                             <div className="col-lg-offset-0 col-lg-0">
                                 <div className='random-centered random-title'> can't decide?
                                     <div>
-                                        <button className="random random-centered button main-title" onClick={this.handleClick}>Try Me!</button>
+                                        <button className="random random-centered button main-title" onClick={this.randomClick}>Try Me!</button>
                                     </div>
                                 </div>
                             </div>

@@ -15,19 +15,77 @@ import firebase from 'firebase/app';
 export class BarsPage extends Component {
     constructor(props) {
         super(props);
-        //this.updateSelection = this.updateSelection.bind(this);
+        this.updateSelection = this.updateSelection.bind(this);
+        this.updateBookmarks = this.updateBookmarks.bind(this);
         this.state = {
             bar: [],
             keys: [],
-            selectedZipcode: []
+            selectedZipcode: [],
+            bookmarks: []
             //isChecked: false
         };
     }
     updateSelection = (selection) => {
-        let tempAry = [];
-        tempAry.push(selection)
-        this.setState({ selectedZipcode: tempAry });
+        let tempAry = this.state.selectedZipcode;
+        if (this.state.selectedZipcode.length > 0) {
+            let checks = 0;
+            // Loop through each
+            for (var i = 0; i < this.state.selectedZipcode.length; i++) {
+                // Verify whether there's a match
+                if (this.state.selectedZipcode[i] != selection) {
+                    checks++;
+                }
+                // If no matches, add it to the state array
+                if (checks == this.state.selectedZipcode.length) {
+                    tempAry.push(selection);
+                    this.setState({ selectedZipcode: tempAry });
+                }
+            }
+        } else {
+            // Automatically add if array is empty
+            tempAry.push(selection);
+            this.setState({ selectedZipcode: tempAry });
+        }
+        console.log(this.state.selectedZipcode, 'selectedZipcode');
+    }
 
+    updateBookmarks = (bar) => {
+        let tempBook = this.state.bookmarks;
+        
+        // If bar item received has clicked as false (from unchecking a Bookmark)
+        if (!bar.clicked) {
+            // Loop through each bookmark until it matches bar
+            for (var i = 0; i < this.state.bookmarks.length; i++) {
+                // Remove when match is found
+                if (this.state.bookmarks[i].name == bar.name) {
+                    tempBook.splice(i, 1);
+                    this.setState( { bookmarks: tempBook });
+                }
+            }
+        } else {
+            
+            // If there is anything in the state
+            if (this.state.bookmarks.length > 0) {
+                let checks = 0;
+                // Loop through each
+                for (var i = 0; i < this.state.bookmarks.length; i++) {
+                    // Verify whether there's a match
+                    if (this.state.bookmarks[i].name != bar.name) {
+                        checks++;
+                    }
+                    // If no matches, add it to the state array
+                    if (checks == this.state.bookmarks.length) {
+                        tempBook.push(bar);
+                        this.setState({ bookmarks: tempBook });
+                    }
+                    // console.log(checks, 'checks');
+                }
+            } else {
+                // Automatically add if array is empty
+                tempBook.push(bar);
+                this.setState({ bookmarks: tempBook });
+            }
+        }
     }
 
     handleChange(event) {
@@ -64,16 +122,15 @@ export class BarsPage extends Component {
 
     }
     render() {
-        //let rumbaRef = firebase.database().ref('bars').child('rumbaBar');
-
-        //rumbaRef.update({testName2: "testvalue2TEST HIII"}).catch(err=>console.log(err));
 
         return (
             <div>
                 <BarIntroText />
                 <ZipSelection barState={this.state} updateSelection={this.updateSelection} />
                 <RowCheckboxes barState={this.state} updateSelection={this.updateSelection} />
-                <div> <BarCardRow barState={this.state} /></div>
+                <div> <BarCardRow barState={this.state} bookmarkCallback={this.updateBookmarks}/>
+                <Bookmarks bookState={this.state} bookmarkCallback={this.updateBookmarks}/>
+                </div>
 
             </div>
         )
@@ -112,7 +169,7 @@ class ZipCodes extends Component {
     render() {
         return (
             <option value={(this.props.value.zipcode)} >
-                {console.log("currently in zipcode comp: " + this.props.value.zipcode)}
+                {/* {console.log("currently in zipcode comp: " + this.props.value.zipcode)} */}
                 {this.props.value.zipcode}
             </option>
         );
@@ -144,20 +201,21 @@ class RowCheckboxes extends Component {
     
     handleClick = (item) => {
         this.props.barState.isChecked = !this.props.barState.isChecked;
-       console.log(this.props.barState.isChecked, this.props.barState.bar.name);
-        console.log("ive been clicked");
-        if (this.props.barState.isChecked == true) {
-            this.props.updateSelection(item.target.value);
-            //this.selectedZipcode.push(item.target.value);
-        } else { 
-            this.props.updateSelection('');
-            this.selectedZipcode = '';
-        }
+        // console.log(this.props.barState.isChecked, this.props.barState.bar.name, "ive been clicked");
+        // if (this.props.barState.isChecked == true) {
+        //     this.props.updateSelection(item.target.value);
+        //     //this.selectedZipcode.push(item.target.value);
+        // } else { 
+        //     this.props.updateSelection('');
+        //     this.selectedZipcode = '';
+        // }
+        console.log(item.target.value, 'checkbox val');
+        this.props.updateSelection(item.target.value);
 
     }
     render() {
         let zipArray = [];
-        console.log(this.props.barState.bar, "currently in RowCheckboxes");
+        // console.log(this.props.barState.bar, "currently in RowCheckboxes");
         this.props.barState.bar.map((item) => {
             if (!zipArray.includes(item.zipcode)) {
                 zipArray.push( <div className="zipcode-checkbox">
@@ -186,7 +244,7 @@ class ZipSelection extends Component {
 
     render() {
         let zipArray = [];
-        console.log(this.props.barState.bar);
+        // console.log(this.props.barState.bar);
         this.props.barState.bar.map((item) => {
             if (!zipArray.includes(item.zipcode)) {
                 zipArray.push(<ZipCodes value={item} key={item.id} />);
@@ -230,7 +288,8 @@ class BarCard extends Component {
     handleButtonClick = (item) => {
         //this.props.updateSelection(item.target.value);
         //this.selectedZipcode = item.target.value;
-        console.log("in handle button clcik" + item);
+        
+        // console.log("in handle button clcik" + item);
         //this.props.updateBookmarks(item);
         let barsRef = firebase.database().ref('bars');
         let bookmarks = barsRef.child(this.props.id + '/bookmarks');
@@ -238,8 +297,14 @@ class BarCard extends Component {
         // Issue a transaction on the number of likes to increase it by 1
         bookmarks.transaction((d) => d + 1);
         //console.log(barsRef.child(this.props.id + '/address'));
-        console.log(this.props.bookies);
+        console.log(this.props.bookies, 'bookies');
+        // console.log(this.props.bar, "bar");
 
+        // CALLBACKS for bookmarks
+        this.props.bar['clicked'] = true;
+        this.props.bookCardCall(this.props.bar);
+        // bookmark = (<Bookmarks/>);
+        // this.props.bookmarksSlide({bookmarked: bookmark});
     }
 
     render() {
@@ -250,7 +315,7 @@ class BarCard extends Component {
             marginBottom: '10px',
             float: 'center'
         };
-        const buttonStyle = { marginLeft: '10px', color: '#9A0A35' };
+        const buttonStyle = { marginLeft: '10px', color: '#9A0A35'};
         return (
             <Card style={mystyle}>
                 <CardImg className="bar-card-images" src={this.props.bar.img} alt={this.props.bar.imgalt} />
@@ -259,7 +324,6 @@ class BarCard extends Component {
                     <CardSubtitle> Zipcode: {this.props.bar.zipcode}</CardSubtitle>
                     <CardText> Address: {this.props.bar.address}</CardText>
                     <Button><a href={this.props.bar.website} target="_blank">{'Visit Website'}</a></Button>
-
                     <Button style={buttonStyle} onClick={this.handleButtonClick}>Cheers (feel free to spam!): {this.props.bookies}</Button>
                 </CardBody>
             </Card>
@@ -269,6 +333,10 @@ class BarCard extends Component {
 }
 
 class BarCardRow extends Component {
+    constructor(props) {
+        super(props);
+        this.bookmarkCallback = this.bookmarkCallback.bind(this);
+    }
     updateBookmarks(cardId) {
         // Create a reference to the number of likes
         let barsRef = firebase.database().ref('bars');
@@ -276,16 +344,26 @@ class BarCardRow extends Component {
         // Issue a transaction on the number of likes to increase it by 1
         bookmarks.transaction((d) => d + 1);
     }
+
+    bookmarkCallback(bar) {
+        console.log(bar, ' barcard called back!');
+        // this.state.barBooked = bar;
+        // console.log(this.props.barState.key, 'state');
+        this.props.bookmarkCallback(bar);
+    }
+
     render() {
+        // console.log(this.props.barState.bar, 'barstate.bar');
         let barCardArray = this.props.barState.bar.map((item) => {
             let barOption = this.props.barState.selectedZipcode;
-            console.log(item.bookmarks);
-            console.log(item.name);
-
+            // console.log(item.bookmarks);
+            // console.log(item.name);
+            
             if (barOption.includes(item.zipcode)) {
                 //console.log("in barCardRow rn! " + {item})
-
-                return (<BarCard bar={item} key={item.id} update={(item) => this.updateBookmarks(item.id)} id={item.id} key={item} bookies={item.bookmarks} />);
+                
+                return (<BarCard bar={item} key={item.id} update={(item) => this.updateBookmarks(item.id)} 
+                                id={item.id} key={item} bookies={item.bookmarks} bookCardCall={this.bookmarkCallback}/>);
 // in barcardrow it should look to see what options have been selected
 //based on those, it renders the correct ones. 
             }
@@ -298,7 +376,7 @@ class BarCardRow extends Component {
             return ({ [names]: book });
             //could do top three filtering here itself
         })
-        console.log(topThreeArray, "topthreearray,book");
+        // console.log(topThreeArray, "topthreearray,book");
         // console.log(name); 
 
         // let sortedKeys = Object.keys(topThreeArray.book).sort((a, b) => { 
@@ -321,6 +399,60 @@ class BarCardRow extends Component {
             <div className="bar-chosen-random">
                 <h2>{barHeader}</h2>
                 {barCardArray}
+            </div>
+        );
+    }
+}
+
+
+class Bookmarks extends Component {
+    // constructor(props) {
+    //     super(props);
+    //     // this.state = {
+    //     //     books = this.props.bookState.bookmarks
+    //     // }
+    // }
+    handleClick = (item) => {
+        // console.log(item.target.id, this.props.bookState.bookmarks, 'clicked to remove');
+        let removeBar = this.props.bookState.bookmarks.map((bookmark) => {
+            
+            if (bookmark.id == item.target.id) {
+                console.log(bookmark.clicked, 'clicked');
+                bookmark.clicked = false;
+                return bookmark;
+            }
+        });
+        this.props.bookmarkCallback(removeBar[0]);
+        console.log(removeBar, 'remove this');
+    }
+    
+    render() {
+        let bookArr = this.props.bookState.bookmarks.map((item) => {
+            let name = item.name;
+            let link = item.website;
+            let id = item.id
+            let address = item.address;
+            return (<li id={id}>Bar ~ <a href={link}>{name}</a> ~ {address}</li>)
+        });
+
+        let bookHeader = "";
+        let bookControl = "";
+        if (this.props.bookState.bookmarks.length == 0) {
+            bookHeader = "";
+            bookControl = "";
+        }
+        else {
+            bookHeader = "Bookmarks";
+            bookControl = "(select bar to remove)"
+        }
+
+        return (
+            <div className="bookmarks-side">
+                <h2>{bookHeader}</h2>
+                <h5>{bookControl}</h5>
+                <div className="sidebox">
+                    <ul className='links-side-list' id="links-list" onClick={this.handleClick}>{bookArr}</ul>
+                </div>
             </div>
         );
     }

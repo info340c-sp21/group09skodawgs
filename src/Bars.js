@@ -348,7 +348,7 @@ class BarCard extends Component {
                     <CardSubtitle> Zipcode: {this.props.bar.zipcode}</CardSubtitle>
                     <CardText> Address: {this.props.bar.address}</CardText>
                     <Button><a href={this.props.bar.website} target="_blank">{'Visit Website'}</a></Button>
-                    <Button style={buttonStyle} onClick={this.handleButtonClick}>Cheers (feel free to spam!): {this.props.bookies}</Button>
+                    <Button style={buttonStyle} onClick={this.handleButtonClick}>Cheers to Bookmark (feel free to spam!): {this.props.bookies}</Button>
                 </CardBody>
             </Card>
 
@@ -393,30 +393,51 @@ class BarCardRow extends Component {
             }
 
         })
-        let topThreeArray = new Map();
-        topThreeArray = this.props.barState.bar.map((item) => {
-            var book = item.bookmarks;
-            let names = item.name;
-            //return ({ [book]: names });
-            return({book,names});
-            //could do top three filtering here itself
-        })
-        
-        console.log(topThreeArray, "topthreearr");
-        //let sortedKeys = Object.keys(topThreeArray.sort((a, b) => { 
-        //    return topThreeArray[b].book - topThreeArray[a].book;
-        //}))
-        console.log(topThreeArray[0], "what r u");
-        var hello = topThreeArray[0];
-        // console.log(name); 
 
-        // let sortedKeys = Object.keys(topThreeArray.book).sort((a, b) => { 
-        //     return this.state.tweets[b].timestamp - this.state.tweets[a].timestamp;
-        //     console.log(topThreeArray.book[b]);
+        // let topThreeArray = new Map();
+        // topThreeArray = this.props.barState.bar.map((item) => {
+        //     var book = item.bookmarks;
+        //     let names = item.name;
+        //     //return ({ [book]: names });
+        //     return({[book]:names});
+        //     //could do top three filtering here itself
         // })
-        // let topThreeDisplay = [];
-        // let sortedKeys = Object.keys(topThreeArray).sort(topThreeArray.book);
-        // console.log(sortedKeys, "sortedKeys");
+        
+        let topThreeNames = [];
+        let count = 0;
+        let topThreeValues = this.props.barState.bar.map((item) => {
+            topThreeNames[count++] = item.name;
+            return item.bookmarks;
+        });
+        console.log(topThreeValues, topThreeNames);
+
+        topThreeValues.sort()
+        console.log(topThreeValues, "sorted");
+
+        let n = topThreeValues.length;
+        let onlyThreeValues = [topThreeValues[n-1], topThreeValues[n-2], topThreeValues[n-3]];
+        console.log(onlyThreeValues);
+
+        let newTopThreeNames = this.props.barState.bar.map((item) => {
+            if (onlyThreeValues.includes(item.bookmarks)) {
+                return item.name;
+            }
+        });
+        console.log(newTopThreeNames, "the top 3 bars"); 
+        let topThreeWithoutUndefined = [];
+        let countt = 0;
+        let myTopThreeBadBitches = "Your Choice of Top 3 bars (doesn't break ties!): ";
+        for (var i = 0; i < newTopThreeNames.length; i++) {
+            if (newTopThreeNames[i] != null) {
+                topThreeWithoutUndefined[countt++] = newTopThreeNames[i];
+                myTopThreeBadBitches = myTopThreeBadBitches + newTopThreeNames[i] + ", ";
+            }
+        }
+        myTopThreeBadBitches = myTopThreeBadBitches.substring(0, ((myTopThreeBadBitches.length) - 2));
+        console.log(myTopThreeBadBitches, "my top three");
+
+        
+
         let barHeader = "";
         let zipOption = this.props.barState.selectedZipcode;
         
@@ -428,8 +449,11 @@ class BarCardRow extends Component {
         }
         return (
             <div className="bar-chosen-random">
+                <br></br>
+                {myTopThreeBadBitches}
                 <h2>{barHeader}</h2>
                 {barCardArray}
+                {console.log(barCardArray)}
             </div>
         );
     }

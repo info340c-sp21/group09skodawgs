@@ -19,11 +19,14 @@ export class BarsPage extends Component {
         this.state = {
             bar: [],
             keys: [],
-            selectedZipcode: ''
+            selectedZipcode: []
+            //isChecked: false
         };
     }
     updateSelection = (selection) => {
-        this.setState({ selectedZipcode: selection });
+        let tempAry = [];
+        tempAry.push(selection)
+        this.setState({ selectedZipcode: tempAry });
 
     }
 
@@ -46,7 +49,7 @@ export class BarsPage extends Component {
             let tweets = snapshot.val();
             let d = Object.values(tweets);
             let k = Object.keys(d[0]);
-            
+
 
             this.setState({ bar: d, keys: k });
         });
@@ -69,6 +72,7 @@ export class BarsPage extends Component {
             <div>
                 <BarIntroText />
                 <ZipSelection barState={this.state} updateSelection={this.updateSelection} />
+                <RowCheckboxes barState={this.state} updateSelection={this.updateSelection} />
                 <div> <BarCardRow barState={this.state} /></div>
 
             </div>
@@ -111,6 +115,62 @@ class ZipCodes extends Component {
                 {console.log("currently in zipcode comp: " + this.props.value.zipcode)}
                 {this.props.value.zipcode}
             </option>
+        );
+    }
+}
+
+class ZipCodeCheckBox extends Component {
+    render() {
+
+        return (
+            //     <form>
+            //         <label> Select Neighborhoods:
+            //     <input name="checkZip"value="hi" id="checkbox" onChange={this.handleClick}>
+
+            //         {this.zipArray}
+            //     </input>
+            //     </label>
+            // </form>
+            <div className="zipcode-checkbox">
+                <input type="checkbox" value={(this.props.value.zipcode)} id={(this.props.value.zipcode)}
+                />{this.props.value.zipcode}
+            </div>
+        );
+
+    }
+}
+
+class RowCheckboxes extends Component {
+    handleClick = (item) => {
+        this.props.barState.isChecked = !this.props.barState.isChecked;
+       console.log(this.props.barState.isChecked, this.props.barState.bar.name);
+        console.log("ive been clicked");
+        if (this.props.barState.isChecked == true) {
+            this.props.updateSelection(item.target.value);
+            //this.selectedZipcode.push(item.target.value);
+        } else { 
+            this.props.updateSelection('');
+            this.selectedZipcode = '';
+        }
+
+    }
+    render() {
+        let zipArray = [];
+        console.log(this.props.barState.bar, "currently in RowCheckboxes");
+        this.props.barState.bar.map((item) => {
+            if (!zipArray.includes(item.zipcode)) {
+                zipArray.push( <div className="zipcode-checkbox">
+                <input type="checkbox" value={(item.zipcode)} id={(item.zipcode)}onChange={this.handleClick} />{item.zipcode}
+            </div>);
+                //console.log(item.zipcode);
+                //console.log(item);
+            }
+            return zipArray;
+        });
+        return (
+            <div >
+                {zipArray}
+            </div>
         );
     }
 }
@@ -189,7 +249,7 @@ class BarCard extends Component {
             marginBottom: '10px',
             float: 'center'
         };
-        const buttonStyle = { marginLeft: '10px', color: '#9A0A35'};
+        const buttonStyle = { marginLeft: '10px', color: '#9A0A35' };
         return (
             <Card style={mystyle}>
                 <CardImg className="bar-card-images" src={this.props.bar.img} alt={this.props.bar.imgalt} />
@@ -220,23 +280,24 @@ class BarCardRow extends Component {
             let barOption = this.props.barState.selectedZipcode;
             console.log(item.bookmarks);
             console.log(item.name);
-            
+
             if (barOption.includes(item.zipcode)) {
                 //console.log("in barCardRow rn! " + {item})
-                
-                return (<BarCard bar={item} key={item.id} update={(item) => this.updateBookmarks(item.id)} id={item.id} key={item} bookies={item.bookmarks} />);
 
+                return (<BarCard bar={item} key={item.id} update={(item) => this.updateBookmarks(item.id)} id={item.id} key={item} bookies={item.bookmarks} />);
+// in barcardrow it should look to see what options have been selected
+//based on those, it renders the correct ones. 
             }
-            
+
         })
-       let topThreeArray = new Map();
-         topThreeArray = this.props.barState.bar.map((item) => {
+        let topThreeArray = new Map();
+        topThreeArray = this.props.barState.bar.map((item) => {
             var book = item.bookmarks;
             let names = item.name;
-            return({[names]: book});
+            return ({ [names]: book });
             //could do top three filtering here itself
         })
-        console.log(topThreeArray, "topthreearray,book"); 
+        console.log(topThreeArray, "topthreearray,book");
         // console.log(name); 
 
         // let sortedKeys = Object.keys(topThreeArray.book).sort((a, b) => { 

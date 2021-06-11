@@ -21,8 +21,8 @@ export class BarsPage extends Component {
             bar: [],
             keys: [],
             selectedZipcode: [],
-            bookmarks: []
-            //isChecked: false
+            bookmarks: [],
+            isChecked: false
         };
     }
     updateSelection = (selection) => {
@@ -50,7 +50,7 @@ export class BarsPage extends Component {
         //1. go through all of the checkboxes and put it into a map.
         //2. get each boolean isChecked value and put it into an array
         //3. if a boolean value is false, use its index, and get the zip code from the map.
-            // once this is done, remove the zip code from the array. khalas
+        // once this is done, remove the zip code from the array. khalas
         let allBarsFromState = this.state.bar;
         for (var i = 0; i < allBarsFromState.length; i++) {
             let barItself = allBarsFromState[i];
@@ -74,7 +74,7 @@ export class BarsPage extends Component {
                 // Remove when match is found
                 if (this.state.bookmarks[i].name == bar.name) {
                     tempBook.splice(i, 1);
-                    this.setState( { bookmarks: tempBook });
+                    this.setState({ bookmarks: tempBook });
                 }
             }
         } else {
@@ -139,10 +139,10 @@ export class BarsPage extends Component {
                 <BarIntroText />{/* 
                 <ZipSelection barState={this.state} updateSelection={this.updateSelection} /> */}
                 <RowCheckboxes barState={this.state} updateSelection={this.updateSelection} />
-                <div className = "mscardssitch"> <BarCardRow barState={this.state} bookmarkCallback={this.updateBookmarks}/>
-                <div className="bookMarksClassName">
-                <Bookmarks bookState={this.state} bookmarkCallback={this.updateBookmarks}/>
-                </div> 
+                <div className="mscardssitch"> <BarCardRow barState={this.state} bookmarkCallback={this.updateBookmarks} />
+                    <div className="bookMarksClassName">
+                        <Bookmarks bookState={this.state} bookmarkCallback={this.updateBookmarks} />
+                    </div>
                 </div>
 
             </div>
@@ -215,21 +215,21 @@ class RowCheckboxes extends Component {
         super(props);
     }
     handleClick = (item) => {
-        console.log(item.target.value, "in rowchecbox handle click");
-        console.log(this.props.barState.bar[item.target.id].ischosen, 'bar state chosen');
-        let currentBool = this.props.barState.bar[item.target.id].ischosen;
-        item.target.ischosen = currentBool;
-        console.log(currentBool, " is chosen");
-        currentBool = !currentBool;
-        console.log(currentBool, " after !");
-        if (currentBool == true) { 
-            currentBool = false;
-        } else { 
-            currentBool = true;
-        }
-        console.log(currentBool, " after if statements");
-       // console.log(item.isChecked);
-        //this.props.barState.bar.isChecked = !this.props.barState.bar.isChecked;
+        // console.log(item.target.value, "in rowchecbox handle click");
+        // console.log(this.props.barState.bar[item.target.id].ischosen, 'bar state chosen');
+        // let currentBool = this.props.barState.bar[item.target.id].ischosen;
+        // item.target.ischosen = currentBool;
+        // console.log(currentBool, " is chosen");
+        // currentBool = !currentBool;
+        // console.log(currentBool, " after !");
+        // if (currentBool == true) { 
+        //     currentBool = false;
+        // } else { 
+        //     currentBool = true;
+        // }
+        // console.log(currentBool, " after if statements");
+        // console.log(item.isChecked);
+        // this.props.barState.bar.isChecked = !this.props.barState.bar.isChecked;
         // if (this.props.barState.isChecked == true) {
         //     this.props.updateSelection(item.target.value);
         //     //this.selectedZipcode.push(item.target.value);
@@ -237,12 +237,33 @@ class RowCheckboxes extends Component {
         //     this.props.updateSelection('');
         //     this.selectedZipcode = '';
         // }
-        let boolObj = {[item.target.value] : currentBool }
-        
-            this.props.updateSelection(boolObj);
-       
-        
-        
+        // let boolObj = {[item.target.value] : currentBool }
+
+        //     this.props.updateSelection(item.target.value);
+        // } else { 
+        //     this.props.updateSelection('');
+        // }
+        //     this.props.barState.isChecked = !this.props.barState.isChecked;
+        //    console.log(this.props.barState.isChecked, this.props.barState.bar.name);
+        //     console.log("ive been clicked");
+        //     if (this.props.barState.isChecked == true) {
+        //         this.props.updateSelection(item.target.value);
+        //         this.props.barState.selectedZipcode.push(item.target.value);
+        //     } else { 
+        //         this.props.updateSelection('');
+        //         this.props.barState.selectedZipcode = '';
+        //     }
+        console.log(item, "in rowchecbox handle click");
+        this.props.barState.bar.isChecked = !this.props.barState.bar.isChecked;
+        // if (this.props.barState.isChecked == true) {
+        //     this.props.updateSelection(item.target.value);
+        //     //this.selectedZipcode.push(item.target.value);
+        // } else { 
+        //     this.props.updateSelection('');
+        //     this.selectedZipcode = '';
+        // }
+        this.props.updateSelection(item.target.value);
+
 
     }
     render() {
@@ -250,15 +271,15 @@ class RowCheckboxes extends Component {
         this.props.barState.bar.map((item) => {
             var itemIsChosen = item.ischosen + "";
             if (!zipArray.includes(item.zipcode)) {
-                {item.ischosen = itemIsChosen}
+                { item.ischosen = itemIsChosen }
                 console.log(item.isChosen, "in ifstatement rn");
-                zipArray.push( <div className="zipcode-checkbox">
-                {console.log(itemIsChosen, "in render")}
-                <input type="checkbox" value={(item.zipcode)} id={(item.id)} ischosen={itemIsChosen}onChange={this.handleClick} />{item.zipcode}
-            </div>);
+                zipArray.push(<div className="zipcode-checkbox">
+                    {console.log(itemIsChosen, "in render")}
+                    <input type="checkbox" value={(item.zipcode)} id={(item.id)} ischosen={itemIsChosen} onChange={this.handleClick} />{item.zipcode}
+                </div>);
             }
             return zipArray;
-            
+
         });
         return (
             <div >
@@ -320,7 +341,7 @@ class BarCard extends Component {
     handleButtonClick = (item) => {
         //this.props.updateSelection(item.target.value);
         //this.selectedZipcode = item.target.value;
-        
+
         //this.props.updateBookmarks(item);
         let barsRef = firebase.database().ref('bars');
         let bookmarks = barsRef.child(this.props.id + '/bookmarks');
@@ -341,7 +362,7 @@ class BarCard extends Component {
             marginBottom: '10px',
             float: 'center'
         };
-        const buttonStyle = { marginLeft: '10px', color: '#9A0A35'};
+        const buttonStyle = { marginLeft: '10px', color: '#9A0A35' };
         return (
             <Card style={mystyle}>
                 <CardImg className="bar-card-images" src={this.props.bar.img} alt={this.props.bar.imgalt} />
@@ -375,16 +396,16 @@ class BarCardRow extends Component {
         // this.state.barBooked = bar;
         this.props.bookmarkCallback(bar);
     }
-    
+
     render() {
         let barCardArray = this.props.barState.bar.map((item) => {
             let barOption = this.props.barState.selectedZipcode;
-            console.log(barOption, "in barcard row");
+            //console.log(barOption, "in barcard row");
             if (barOption.includes(item.zipcode)) {
-                return (<BarCard bar={item} key={item.id} update={(item) => this.updateBookmarks(item.id)} 
-                                id={item.id} bookies={item.bookmarks} bookCardCall={this.bookmarkCallback}/>);
-            // in barcardrow it should look to see what options have been selected
-            //based on those, it renders the correct ones. 
+                return (<BarCard bar={item} key={item.id} update={(item) => this.updateBookmarks(item.id)}
+                    id={item.id} bookies={item.bookmarks} bookCardCall={this.bookmarkCallback} />);
+                // in barcardrow it should look to see what options have been selected
+                //based on those, it renders the correct ones. 
             }
 
         })
@@ -397,7 +418,7 @@ class BarCardRow extends Component {
         //     return({[book]:names});
         //     //could do top three filtering here itself
         // })
-        
+
         let topThreeNames = [];
         let count = 0;
         let topThreeValues = this.props.barState.bar.map((item) => {
@@ -408,7 +429,7 @@ class BarCardRow extends Component {
         topThreeValues.sort()
 
         let n = topThreeValues.length;
-        let onlyThreeValues = [topThreeValues[n-1], topThreeValues[n-2], topThreeValues[n-3]];
+        let onlyThreeValues = [topThreeValues[n - 1], topThreeValues[n - 2], topThreeValues[n - 3]];
 
         let newTopThreeNames = this.props.barState.bar.map((item) => {
             if (onlyThreeValues.includes(item.bookmarks)) {
@@ -426,10 +447,10 @@ class BarCardRow extends Component {
         }
         myTopThreeBadBitches = myTopThreeBadBitches.substring(0, ((myTopThreeBadBitches.length) - 2));
 
-    
+
         let barHeader = "";
         let zipOption = this.props.barState.selectedZipcode;
-        
+
         if (zipOption === "" || zipOption === "DEFAULT" || zipOption.length == 0) {
             barHeader = "";
         }
@@ -457,7 +478,7 @@ class Bookmarks extends Component {
     // }
     handleClick = (item) => {
         let removeBar = this.props.bookState.bookmarks.map((bookmark) => {
-            
+
             if (bookmark.id == item.target.id) {
                 bookmark.clicked = false;
                 return bookmark;
@@ -465,7 +486,7 @@ class Bookmarks extends Component {
         });
         this.props.bookmarkCallback(removeBar[0]);
     }
-    
+
     render() {
         let bookArr = this.props.bookState.bookmarks.map((item) => {
             let name = item.name;

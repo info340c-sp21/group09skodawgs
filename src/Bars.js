@@ -34,23 +34,34 @@ export class BarsPage extends Component {
 
     updateBookmarks = (bar) => {
         let tempBook = this.state.bookmarks;
-        if (this.state.bookmarks.length > 0) {
-            let checks = 0;
+        if (!bar.clicked) {
+            console.log('updating unclick');
             for (var i = 0; i < this.state.bookmarks.length; i++) {
-                if (this.state.bookmarks[i].name != bar.name) {
-                    checks++;
-                }
-                if (checks == this.state.bookmarks.length) {
-                    tempBook.push(bar);
-                    this.setState({ bookmarks: tempBook });
+                if (this.state.bookmarks[i].name == bar.name) {
+                    tempBook.splice(i, 1);
+                    this.setState( { bookmarks: tempBook });
                 }
                 // console.log(checks, 'checks');
             }
         } else {
-            tempBook.push(bar);
-            this.setState({ bookmarks: tempBook });
+            if (this.state.bookmarks.length > 0) {
+                let checks = 0;
+                for (var i = 0; i < this.state.bookmarks.length; i++) {
+                    if (this.state.bookmarks[i].name != bar.name) {
+                        checks++;
+                    }
+                    if (checks == this.state.bookmarks.length) {
+                        tempBook.push(bar);
+                        this.setState({ bookmarks: tempBook });
+                    }
+                    // console.log(checks, 'checks');
+                }
+            } else {
+                tempBook.push(bar);
+                this.setState({ bookmarks: tempBook });
+            }
         }
-        // console.log(this.state.bookmarks, 'bookmarks');
+        console.log(this.state.bookmarks, 'bookmarks');
     }
 
     handleChange(event) {
@@ -97,7 +108,7 @@ export class BarsPage extends Component {
                 <ZipSelection barState={this.state} updateSelection={this.updateSelection} />
                 <RowCheckboxes barState={this.state} updateSelection={this.updateSelection} />
                 <div> <BarCardRow barState={this.state} bookmarkCallback={this.updateBookmarks}/>
-                <Bookmarks bookState={this.state}/>
+                <Bookmarks bookState={this.state} bookmarkCallback={this.updateBookmarks}/>
                 </div>
 
             </div>
@@ -370,34 +381,52 @@ class BarCardRow extends Component {
 
 
 class Bookmarks extends Component {
-    constructor(props) {
-        super(props);
-        // this.state = {
-        //     books = this.props.bookState.bookmarks
-        // }
+    // constructor(props) {
+    //     super(props);
+    //     // this.state = {
+    //     //     books = this.props.bookState.bookmarks
+    //     // }
+    // }
+    handleClick = (item) => {
+        console.log(item.target.id, this.props.bookState.bookmarks, 'clicked to remove');
+        let removeBar = this.props.bookState.bookmarks.map((bookmark) => {
+            
+            if (bookmark.id == item.target.id) {
+                console.log(bookmark.clicked, 'clicked');
+                bookmark.clicked = false;
+                return bookmark;
+            }
+        });
+        this.props.bookmarkCallback(removeBar);
+        console.log(removeBar, 'remove this');
     }
     
     render() {
-        // let bookmarkArr = this.props.bookState.bookmark.map((item) => {
-        //     // let barOption = this.props.barState.selectedZipcode;
-        //     // console.log(item.bookmarks);
-        //     // console.log(item.name);
-        //     let bookmarkOption = this.props.bookState.
-            
-        //     if (barOption.includes(item.zipcode)) {
-        //         //console.log("in barCardRow rn! " + {item})
-                
-        //         return (<BarCard bar={item} key={item.id} update={(item) => this.updateBookmarks(item.id)} 
-        //                         id={item.id} key={item} bookies={item.bookmarks} />);
+        let bookArr = this.props.bookState.bookmarks.map((item) => {
+            let name = item.name;
+            let link = item.website;
+            let id = item.id
+            let address = item.address;
+            return (<li id={id}>Bar ~ <a href={link}>{name}</a> ~ {address}</li>)
+        });
 
-        //     }
-            
-        // })
+        let bookHeader = "";
+        let bookControl = "";
+        if (this.props.bookState.bookmarks.length == 0) {
+            bookHeader = "";
+            bookControl = "";
+        }
+        else {
+            bookHeader = "Bookmarks";
+            bookControl = "(select bar to remove)"
+        }
+
         return (
             <div className="bookmarks-side">
-                <h2>Bookmarks</h2>
+                <h2>{bookHeader}</h2>
+                <h5>{bookControl}</h5>
                 <div className="sidebox">
-                    <ul className='links-side-list' id="links-list">here</ul>
+                    <ul className='links-side-list' id="links-list" onClick={this.handleClick}>{bookArr}</ul>
                 </div>
             </div>
         );

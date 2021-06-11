@@ -387,8 +387,8 @@ class BarCardRow extends Component {
         // console.log(sortedKeys, "sortedKeys");
         let barHeader = "";
         let zipOption = this.props.barState.selectedZipcode;
-
-        if (zipOption === "" || zipOption === "DEFAULT") {
+        console.log(zipOption, "zip option");
+        if (zipOption === "" || zipOption === "DEFAULT" || zipOption.length == 0) {
             barHeader = "";
         }
         else {

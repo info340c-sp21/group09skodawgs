@@ -141,6 +141,7 @@ class ZipCodeCheckBox extends Component {
 }
 
 class RowCheckboxes extends Component {
+    
     handleClick = (item) => {
         this.props.barState.isChecked = !this.props.barState.isChecked;
        console.log(this.props.barState.isChecked, this.props.barState.bar.name);

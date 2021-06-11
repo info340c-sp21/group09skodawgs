@@ -27,6 +27,7 @@ export class BarsPage extends Component {
     }
     updateSelection = (selection) => {
         let tempAry = this.state.selectedZipcode;
+        console.log(selection, "selection");
         if (this.state.selectedZipcode.length > 0) {
             let checks = 0;
             // Loop through each
@@ -46,12 +47,34 @@ export class BarsPage extends Component {
             tempAry.push(selection);
             this.setState({ selectedZipcode: tempAry });
         }
+        //let zipOption = this.props.barState.selectedZipcode;
+        console.log(this.state, "this,state");
+        //1. go through all of the checkboxes and put it into a map.
+        //2. get each boolean isChecked value and put it into an array
+        //3. if a boolean value is false, use its index, and get the zip code from the map.
+            // once this is done, remove the zip code from the array. khalas
+        let allBarsFromState = this.state.bar;
+        console.log(allBarsFromState, "allBarsFromState");
+        for (var i = 0; i < allBarsFromState.length; i++) {
+            let barItself = allBarsFromState[i];
+            console.log(barItself.zipcode, "baritself.zip");
+            console.log(this.state.selectedZipcode, "this.state.selected zippie");
+            if (barItself.zipcode === this.state.selectedZipcode) {
+                console.log("me in checkie");
+                barItself.isChosen = true;
+            }
+            else {
+                barItself.isChosen = false;
+            }
+            allBarsFromState[i] = barItself;
+            console.log(allBarsFromState[i], "updated bars");
+        }
         console.log(this.state.selectedZipcode, 'selectedZipcode');
     }
 
     updateBookmarks = (bar) => {
         let tempBook = this.state.bookmarks;
-        
+
         // If bar item received has clicked as false (from unchecking a Bookmark)
         if (!bar.clicked) {
             // Loop through each bookmark until it matches bar
@@ -63,7 +86,6 @@ export class BarsPage extends Component {
                 }
             }
         } else {
-            
             // If there is anything in the state
             if (this.state.bookmarks.length > 0) {
                 let checks = 0;
@@ -125,11 +147,13 @@ export class BarsPage extends Component {
 
         return (
             <div>
-                <BarIntroText />
-                <ZipSelection barState={this.state} updateSelection={this.updateSelection} />
+                <BarIntroText />{/* 
+                <ZipSelection barState={this.state} updateSelection={this.updateSelection} /> */}
                 <RowCheckboxes barState={this.state} updateSelection={this.updateSelection} />
-                <div> <BarCardRow barState={this.state} bookmarkCallback={this.updateBookmarks}/>
+                <div className = "mscardssitch"> <BarCardRow barState={this.state} bookmarkCallback={this.updateBookmarks}/>
+                <div className="bookMarksClassName">
                 <Bookmarks bookState={this.state} bookmarkCallback={this.updateBookmarks}/>
+                </div> 
                 </div>
 
             </div>
@@ -224,6 +248,7 @@ class RowCheckboxes extends Component {
                 //console.log(item);
             }
             return zipArray;
+            
         });
         return (
             <div >
@@ -350,7 +375,7 @@ class BarCardRow extends Component {
         // console.log(this.props.barState.key, 'state');
         this.props.bookmarkCallback(bar);
     }
-
+    
     render() {
         // console.log(this.props.barState.bar, 'barstate.bar');
         let barCardArray = this.props.barState.bar.map((item) => {
@@ -363,8 +388,8 @@ class BarCardRow extends Component {
                 
                 return (<BarCard bar={item} key={item.id} update={(item) => this.updateBookmarks(item.id)} 
                                 id={item.id} key={item} bookies={item.bookmarks} bookCardCall={this.bookmarkCallback}/>);
-// in barcardrow it should look to see what options have been selected
-//based on those, it renders the correct ones. 
+            // in barcardrow it should look to see what options have been selected
+            //based on those, it renders the correct ones. 
             }
 
         })
@@ -372,10 +397,17 @@ class BarCardRow extends Component {
         topThreeArray = this.props.barState.bar.map((item) => {
             var book = item.bookmarks;
             let names = item.name;
-            return ({ [names]: book });
+            //return ({ [book]: names });
+            return({book,names});
             //could do top three filtering here itself
         })
-        // console.log(topThreeArray, "topthreearray,book");
+        
+        console.log(topThreeArray, "topthreearr");
+        //let sortedKeys = Object.keys(topThreeArray.sort((a, b) => { 
+        //    return topThreeArray[b].book - topThreeArray[a].book;
+        //}))
+        console.log(topThreeArray[0], "what r u");
+        var hello = topThreeArray[0];
         // console.log(name); 
 
         // let sortedKeys = Object.keys(topThreeArray.book).sort((a, b) => { 
@@ -387,7 +419,7 @@ class BarCardRow extends Component {
         // console.log(sortedKeys, "sortedKeys");
         let barHeader = "";
         let zipOption = this.props.barState.selectedZipcode;
-        console.log(zipOption, "zip option");
+        
         if (zipOption === "" || zipOption === "DEFAULT" || zipOption.length == 0) {
             barHeader = "";
         }

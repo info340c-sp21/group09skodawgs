@@ -84,3 +84,11 @@ div.drink-chosen {
    width:  210px;
    height: 200px;
  }
+
+.mscardssitch {
+   display: flex;
+}
+
+.bookMarksClassName {
+   margin-left: 200px;
+}

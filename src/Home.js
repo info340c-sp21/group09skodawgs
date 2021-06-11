@@ -187,7 +187,8 @@ class DrinkCardRow extends Component {
         //making sure that card is only displayed when drink is chosen
         let drinkHeader = "";
         let drinkOption = this.props.drink.selectedDrink;
-        if (emptyArrayFlag) {
+    
+        if (this.props.drink.randomDrink) {
             drinkOption = "true";
         } 
         if (drinkOption === "" || drinkOption === "DEFAULT") {

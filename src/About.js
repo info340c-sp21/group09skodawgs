@@ -82,7 +82,7 @@ class OurTeam extends Component {
                 <CardBody>
                 <CardTitle>Israel Martinez</CardTitle>
                     <CardText>email: israelma@uw.edu </CardText>
-                    <CardText>favorite drink: AMF (look up the full form ;))!</CardText>
+                    <CardText>favorite drink: <a href="https://www.liquor.com/recipes/adios-motherfucker-2/" target="_blank">AMF</a> (look up the full form ;))!</CardText>
                 </CardBody>
                 </Card>
                 </div>

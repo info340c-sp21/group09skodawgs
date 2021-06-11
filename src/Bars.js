@@ -30,6 +30,10 @@ export class BarsPage extends Component {
 
     }
 
+    updateBookmarks(bar) {
+        console.log(bar);
+    }
+
     handleChange(event) {
         let field = event.target.name; // which input
         let value = event.target.value; // what value
@@ -73,7 +77,9 @@ export class BarsPage extends Component {
                 <BarIntroText />
                 <ZipSelection barState={this.state} updateSelection={this.updateSelection} />
                 <RowCheckboxes barState={this.state} updateSelection={this.updateSelection} />
-                <div> <BarCardRow barState={this.state} /></div>
+                <div> <BarCardRow barState={this.state} bookmarkCallback={this.updateBookmarks}/>
+                <Bookmarks bookState={this.state}/>
+                </div>
 
             </div>
         )
@@ -112,7 +118,7 @@ class ZipCodes extends Component {
     render() {
         return (
             <option value={(this.props.value.zipcode)} >
-                {console.log("currently in zipcode comp: " + this.props.value.zipcode)}
+                {/* {console.log("currently in zipcode comp: " + this.props.value.zipcode)} */}
                 {this.props.value.zipcode}
             </option>
         );
@@ -185,7 +191,7 @@ class ZipSelection extends Component {
 
     render() {
         let zipArray = [];
-        console.log(this.props.barState.bar);
+        // console.log(this.props.barState.bar);
         this.props.barState.bar.map((item) => {
             if (!zipArray.includes(item.zipcode)) {
                 zipArray.push(<ZipCodes value={item} key={item.id} />);
@@ -237,8 +243,14 @@ class BarCard extends Component {
         // Issue a transaction on the number of likes to increase it by 1
         bookmarks.transaction((d) => d + 1);
         //console.log(barsRef.child(this.props.id + '/address'));
-        console.log(this.props.bookies);
+        console.log(this.props.bookies, 'bookies');
+        // console.log(this.props.bar, "bar");
 
+        // CALLBACKS for bookmarks
+        this.props.bar['clicked'] = true;
+        this.props.bookmarkCallback(this.props.bar);
+        // bookmark = (<Bookmarks/>);
+        // this.props.bookmarksSlide({bookmarked: bookmark});
     }
 
     render() {
@@ -249,7 +261,7 @@ class BarCard extends Component {
             marginBottom: '10px',
             float: 'center'
         };
-        const buttonStyle = { marginLeft: '10px', color: '#9A0A35' };
+        const buttonStyle = { marginLeft: '10px', color: '#9A0A35'};
         return (
             <Card style={mystyle}>
                 <CardImg className="bar-card-images" src={this.props.bar.img} alt={this.props.bar.imgalt} />
@@ -258,7 +270,6 @@ class BarCard extends Component {
                     <CardSubtitle> Zipcode: {this.props.bar.zipcode}</CardSubtitle>
                     <CardText> Address: {this.props.bar.address}</CardText>
                     <Button><a href={this.props.bar.website} target="_blank">{'Visit Website'}</a></Button>
-
                     <Button style={buttonStyle} onClick={this.handleButtonClick}>Cheers (feel free to spam!): {this.props.bookies}</Button>
                 </CardBody>
             </Card>
@@ -268,6 +279,14 @@ class BarCard extends Component {
 }
 
 class BarCardRow extends Component {
+    constructor(props) {
+        super(props);
+        //this.updateSelection = this.updateSelection.bind(this);
+        this.state = {
+            barBooked: ''
+        };
+    }
+    
     updateBookmarks(cardId) {
         // Create a reference to the number of likes
         let barsRef = firebase.database().ref('bars');
@@ -275,16 +294,26 @@ class BarCardRow extends Component {
         // Issue a transaction on the number of likes to increase it by 1
         bookmarks.transaction((d) => d + 1);
     }
+
+    bookmarkCallback(bar) {
+        console.log(bar, ' barcard called back!');
+        // this.state.barBooked = bar;
+        console.log(this.state, 'state');
+        // this.props.bookmarkCallback(bar);
+    }
+
     render() {
+        console.log(this.props.barState.bar, 'barstate.bar');
         let barCardArray = this.props.barState.bar.map((item) => {
             let barOption = this.props.barState.selectedZipcode;
-            console.log(item.bookmarks);
-            console.log(item.name);
-
+            // console.log(item.bookmarks);
+            // console.log(item.name);
+            
             if (barOption.includes(item.zipcode)) {
                 //console.log("in barCardRow rn! " + {item})
-
-                return (<BarCard bar={item} key={item.id} update={(item) => this.updateBookmarks(item.id)} id={item.id} key={item} bookies={item.bookmarks} />);
+                
+                return (<BarCard bar={item} key={item.id} update={(item) => this.updateBookmarks(item.id)} 
+                                id={item.id} key={item} bookies={item.bookmarks} bookmarkCallback={this.bookmarkCallback}/>);
 // in barcardrow it should look to see what options have been selected
 //based on those, it renders the correct ones. 
             }
@@ -320,6 +349,42 @@ class BarCardRow extends Component {
             <div className="bar-chosen-random">
                 <h2>{barHeader}</h2>
                 {barCardArray}
+            </div>
+        );
+    }
+}
+
+
+class Bookmarks extends Component {
+    constructor(props) {
+        super(props);
+        // this.state = {
+        //     books = this.props.bookState.bookmarks
+        // }
+    }
+    
+    render() {
+        // let bookmarkArr = this.props.bookState.bookmark.map((item) => {
+        //     // let barOption = this.props.barState.selectedZipcode;
+        //     // console.log(item.bookmarks);
+        //     // console.log(item.name);
+        //     let bookmarkOption = this.props.bookState.
+            
+        //     if (barOption.includes(item.zipcode)) {
+        //         //console.log("in barCardRow rn! " + {item})
+                
+        //         return (<BarCard bar={item} key={item.id} update={(item) => this.updateBookmarks(item.id)} 
+        //                         id={item.id} key={item} bookies={item.bookmarks} />);
+
+        //     }
+            
+        // })
+        return (
+            <div className="bookmarks-side">
+                <h2>Bookmarks</h2>
+                <div className="sidebox">
+                    <ul className='links-side-list' id="links-list">here</ul>
+                </div>
             </div>
         );
     }

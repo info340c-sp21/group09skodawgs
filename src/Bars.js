@@ -199,7 +199,7 @@ class BarCard extends Component {
                     <CardText> Address: {this.props.bar.address}</CardText>
                     <Button><a href={this.props.bar.website} target="_blank">{'Visit Website'}</a></Button>
 
-                    <Button style={buttonStyle} onClick={this.handleButtonClick}>Bookmark: {this.props.bookies}</Button>
+                    <Button style={buttonStyle} onClick={this.handleButtonClick}>Cheers (feel free to spam!): {this.props.bookies}</Button>
                 </CardBody>
             </Card>
 
@@ -218,12 +218,34 @@ class BarCardRow extends Component {
     render() {
         let barCardArray = this.props.barState.bar.map((item) => {
             let barOption = this.props.barState.selectedZipcode;
+            console.log(item.bookmarks);
+            console.log(item.name);
+            
             if (barOption.includes(item.zipcode)) {
                 //console.log("in barCardRow rn! " + {item})
+                
                 return (<BarCard bar={item} key={item.id} update={(item) => this.updateBookmarks(item.id)} id={item.id} key={item} bookies={item.bookmarks} />);
 
             }
+            
         })
+       let topThreeArray = new Map();
+         topThreeArray = this.props.barState.bar.map((item) => {
+            var book = item.bookmarks;
+            let names = item.name;
+            return({[names]: book});
+            //could do top three filtering here itself
+        })
+        console.log(topThreeArray, "topthreearray,book"); 
+        // console.log(name); 
+
+        // let sortedKeys = Object.keys(topThreeArray.book).sort((a, b) => { 
+        //     return this.state.tweets[b].timestamp - this.state.tweets[a].timestamp;
+        //     console.log(topThreeArray.book[b]);
+        // })
+        // let topThreeDisplay = [];
+        // let sortedKeys = Object.keys(topThreeArray).sort(topThreeArray.book);
+        // console.log(sortedKeys, "sortedKeys");
         let barHeader = "";
         let zipOption = this.props.barState.selectedZipcode;
 
@@ -241,6 +263,12 @@ class BarCardRow extends Component {
         );
     }
 }
+
+// class TopThree extends Component { 
+//     render() { 
+//         return (); 
+//     }
+// }
 
 
 

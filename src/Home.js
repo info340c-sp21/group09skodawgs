@@ -17,7 +17,8 @@ export class HomePage extends Component {
         this.state = {
             drinks: [],
             keys: [],
-            selectedDrink: ''
+            selectedDrink: '', 
+            randomDrink: false
         };
     }
 
@@ -190,7 +191,7 @@ class DrinkSelection extends Component {
 
     handleClick = (item) => {
         this.props.updateSelection(item.target.value);
-
+        console.log(item.target.value, "in handle click!!!!!!!!");
         // this.setState({selectedDrink: item.target.value});
         this.selectedDrink = item.target.value;
 

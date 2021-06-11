@@ -72,7 +72,7 @@ class OurTeam extends Component {
                 <CardBody>
                 <CardTitle>Kavya Iyer</CardTitle>
                     <CardText>email: kavyai@uw.edu </CardText>
-                    <CardText>favorite drink: moscowkavyai@uw.edu</CardText>
+                    <CardText>favorite drink: moscow mule</CardText>
                 </CardBody>
                 </Card>
                 </div>

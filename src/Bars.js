@@ -211,10 +211,25 @@ class ZipCodeCheckBox extends Component {
 }
 
 class RowCheckboxes extends Component {
-    
+    constructor(props) {
+        super(props);
+    }
     handleClick = (item) => {
-        console.log(item, "in rowchecbox handle click");
-        this.props.barState.bar.isChecked = !this.props.barState.bar.isChecked;
+        console.log(item.target.value, "in rowchecbox handle click");
+        console.log(this.props.barState.bar[item.target.id].ischosen, 'bar state chosen');
+        let currentBool = this.props.barState.bar[item.target.id].ischosen;
+        item.target.ischosen = currentBool;
+        console.log(currentBool, " is chosen");
+        currentBool = !currentBool;
+        console.log(currentBool, " after !");
+        if (currentBool == true) { 
+            currentBool = false;
+        } else { 
+            currentBool = true;
+        }
+        console.log(currentBool, " after if statements");
+       // console.log(item.isChecked);
+        //this.props.barState.bar.isChecked = !this.props.barState.bar.isChecked;
         // if (this.props.barState.isChecked == true) {
         //     this.props.updateSelection(item.target.value);
         //     //this.selectedZipcode.push(item.target.value);
@@ -222,15 +237,24 @@ class RowCheckboxes extends Component {
         //     this.props.updateSelection('');
         //     this.selectedZipcode = '';
         // }
-        this.props.updateSelection(item.target.value);
+        let boolObj = {[item.target.value] : currentBool }
+        
+            this.props.updateSelection(boolObj);
+       
+        
+        
 
     }
     render() {
         let zipArray = [];
         this.props.barState.bar.map((item) => {
+            var itemIsChosen = item.ischosen + "";
             if (!zipArray.includes(item.zipcode)) {
+                {item.ischosen = itemIsChosen}
+                console.log(item.isChosen, "in ifstatement rn");
                 zipArray.push( <div className="zipcode-checkbox">
-                <input type="checkbox" value={(item.zipcode)} id={(item.zipcode)}onChange={this.handleClick} />{item.zipcode}
+                {console.log(itemIsChosen, "in render")}
+                <input type="checkbox" value={(item.zipcode)} id={(item.id)} ischosen={itemIsChosen}onChange={this.handleClick} />{item.zipcode}
             </div>);
             }
             return zipArray;

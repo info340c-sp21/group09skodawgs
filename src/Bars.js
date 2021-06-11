@@ -27,7 +27,6 @@ export class BarsPage extends Component {
     }
     updateSelection = (selection) => {
         let tempAry = this.state.selectedZipcode;
-        console.log(selection, "selection");
         if (this.state.selectedZipcode.length > 0) {
             let checks = 0;
             // Loop through each
@@ -48,28 +47,21 @@ export class BarsPage extends Component {
             this.setState({ selectedZipcode: tempAry });
         }
         //let zipOption = this.props.barState.selectedZipcode;
-        console.log(this.state, "this,state");
         //1. go through all of the checkboxes and put it into a map.
         //2. get each boolean isChecked value and put it into an array
         //3. if a boolean value is false, use its index, and get the zip code from the map.
             // once this is done, remove the zip code from the array. khalas
         let allBarsFromState = this.state.bar;
-        console.log(allBarsFromState, "allBarsFromState");
         for (var i = 0; i < allBarsFromState.length; i++) {
             let barItself = allBarsFromState[i];
-            console.log(barItself.zipcode, "baritself.zip");
-            console.log(this.state.selectedZipcode, "this.state.selected zippie");
             if (barItself.zipcode === this.state.selectedZipcode) {
-                console.log("me in checkie");
                 barItself.isChosen = true;
             }
             else {
                 barItself.isChosen = false;
             }
             allBarsFromState[i] = barItself;
-            console.log(allBarsFromState[i], "updated bars");
         }
-        console.log(this.state.selectedZipcode, 'selectedZipcode');
     }
 
     updateBookmarks = (bar) => {
@@ -100,7 +92,6 @@ export class BarsPage extends Component {
                         tempBook.push(bar);
                         this.setState({ bookmarks: tempBook });
                     }
-                    // console.log(checks, 'checks');
                 }
             } else {
                 // Automatically add if array is empty
@@ -122,7 +113,6 @@ export class BarsPage extends Component {
     componentDidMount() {
         // d3.csv('data/bars.csv').then((d) => {
         //     this.setState({ bar: d, keys: d3c.keys(d[0]) });
-        //     console.log("indidmount rn: ", this.state);
         // });
         this.barJSON = firebase.database().ref('bars')
         this.barJSON.on('value', (snapshot) => {
@@ -139,7 +129,6 @@ export class BarsPage extends Component {
         // this.barsRef.on('value', (snapshot) => { 
         //     let bar = snapshot.val();
         //     this.setState({bar: bar});
-        //     console.log("In firebase did mount: " + this.state );
         // });
 
     }
@@ -224,7 +213,6 @@ class ZipCodeCheckBox extends Component {
 class RowCheckboxes extends Component {
     handleClick = (item) => {
         this.props.barState.isChecked = !this.props.barState.isChecked;
-        // console.log(this.props.barState.isChecked, this.props.barState.bar.name, "ive been clicked");
         // if (this.props.barState.isChecked == true) {
         //     this.props.updateSelection(item.target.value);
         //     //this.selectedZipcode.push(item.target.value);
@@ -232,20 +220,16 @@ class RowCheckboxes extends Component {
         //     this.props.updateSelection('');
         //     this.selectedZipcode = '';
         // }
-        console.log(item.target.value, 'checkbox val');
         this.props.updateSelection(item.target.value);
 
     }
     render() {
         let zipArray = [];
-        // console.log(this.props.barState.bar, "currently in RowCheckboxes");
         this.props.barState.bar.map((item) => {
             if (!zipArray.includes(item.zipcode)) {
                 zipArray.push( <div className="zipcode-checkbox">
                 <input type="checkbox" value={(item.zipcode)} id={(item.zipcode)}onChange={this.handleClick} />{item.zipcode}
             </div>);
-                //console.log(item.zipcode);
-                //console.log(item);
             }
             return zipArray;
             
@@ -268,12 +252,10 @@ class ZipSelection extends Component {
 
     render() {
         let zipArray = [];
-        // console.log(this.props.barState.bar);
         this.props.barState.bar.map((item) => {
             if (!zipArray.includes(item.zipcode)) {
                 zipArray.push(<ZipCodes value={item} key={item.id} />);
-                //console.log(item.zipcode);
-                //console.log(item);
+
             }
             return zipArray;
         });
@@ -313,16 +295,11 @@ class BarCard extends Component {
         //this.props.updateSelection(item.target.value);
         //this.selectedZipcode = item.target.value;
         
-        // console.log("in handle button clcik" + item);
         //this.props.updateBookmarks(item);
         let barsRef = firebase.database().ref('bars');
         let bookmarks = barsRef.child(this.props.id + '/bookmarks');
-        //console.log(this.props);
         // Issue a transaction on the number of likes to increase it by 1
         bookmarks.transaction((d) => d + 1);
-        //console.log(barsRef.child(this.props.id + '/address'));
-        console.log(this.props.bookies, 'bookies');
-        // console.log(this.props.bar, "bar");
 
         // CALLBACKS for bookmarks
         this.props.bar['clicked'] = true;
@@ -332,7 +309,6 @@ class BarCard extends Component {
     }
 
     render() {
-        //console.log(this.props.bar);
         const mystyle = {
             border: '1px white',
             marginTop: '10px',
@@ -370,24 +346,17 @@ class BarCardRow extends Component {
     }
 
     bookmarkCallback(bar) {
-        console.log(bar, ' barcard called back!');
         // this.state.barBooked = bar;
-        // console.log(this.props.barState.key, 'state');
         this.props.bookmarkCallback(bar);
     }
     
     render() {
-        // console.log(this.props.barState.bar, 'barstate.bar');
         let barCardArray = this.props.barState.bar.map((item) => {
             let barOption = this.props.barState.selectedZipcode;
-            // console.log(item.bookmarks);
-            // console.log(item.name);
-            
+            console.log(barOption, "in barcard row");
             if (barOption.includes(item.zipcode)) {
-                //console.log("in barCardRow rn! " + {item})
-                
                 return (<BarCard bar={item} key={item.id} update={(item) => this.updateBookmarks(item.id)} 
-                                id={item.id} key={item} bookies={item.bookmarks} bookCardCall={this.bookmarkCallback}/>);
+                                id={item.id} bookies={item.bookmarks} bookCardCall={this.bookmarkCallback}/>);
             // in barcardrow it should look to see what options have been selected
             //based on those, it renders the correct ones. 
             }
@@ -409,21 +378,17 @@ class BarCardRow extends Component {
             topThreeNames[count++] = item.name;
             return item.bookmarks;
         });
-        console.log(topThreeValues, topThreeNames);
 
         topThreeValues.sort()
-        console.log(topThreeValues, "sorted");
 
         let n = topThreeValues.length;
         let onlyThreeValues = [topThreeValues[n-1], topThreeValues[n-2], topThreeValues[n-3]];
-        console.log(onlyThreeValues);
 
         let newTopThreeNames = this.props.barState.bar.map((item) => {
             if (onlyThreeValues.includes(item.bookmarks)) {
                 return item.name;
             }
         });
-        console.log(newTopThreeNames, "the top 3 bars"); 
         let topThreeWithoutUndefined = [];
         let countt = 0;
         let myTopThreeBadBitches = "Your Choice of Top 3 bars (doesn't break ties!): ";
@@ -434,10 +399,8 @@ class BarCardRow extends Component {
             }
         }
         myTopThreeBadBitches = myTopThreeBadBitches.substring(0, ((myTopThreeBadBitches.length) - 2));
-        console.log(myTopThreeBadBitches, "my top three");
 
-        
-
+    
         let barHeader = "";
         let zipOption = this.props.barState.selectedZipcode;
         
@@ -453,7 +416,6 @@ class BarCardRow extends Component {
                 {myTopThreeBadBitches}
                 <h2>{barHeader}</h2>
                 {barCardArray}
-                {console.log(barCardArray)}
             </div>
         );
     }
@@ -468,17 +430,14 @@ class Bookmarks extends Component {
     //     // }
     // }
     handleClick = (item) => {
-        // console.log(item.target.id, this.props.bookState.bookmarks, 'clicked to remove');
         let removeBar = this.props.bookState.bookmarks.map((bookmark) => {
             
             if (bookmark.id == item.target.id) {
-                console.log(bookmark.clicked, 'clicked');
                 bookmark.clicked = false;
                 return bookmark;
             }
         });
         this.props.bookmarkCallback(removeBar[0]);
-        console.log(removeBar, 'remove this');
     }
     
     render() {

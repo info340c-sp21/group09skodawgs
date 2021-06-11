@@ -246,7 +246,7 @@ class DrinkSelection extends Component {
         //         </option>
         //     )
         // })
-        let moodArray = [];
+        let moodArray = [<option value="DEFAULT">{'-- select a vibe --'}</option>];
 
         this.props.drink.drinks.map((item) => {
             if (!moodArray.includes(item.mood)) {
@@ -270,8 +270,8 @@ class DrinkSelection extends Component {
                                 <label htmlFor="moods" className="main-title">
                                     How are you feeling today?
                                     <div >
-                                        <select name="types" id="types" onChange={this.handleClick}>
-                                            <option value="DEFAULT">{'-- select a vibe --'}</option>
+                                        <select name="types" id="types" onChange={this.handleClick} defaultValue={moodArray[0]}>
+                                            {/* <option value="DEFAULT" selected defaultValue>{'-- select a vibe --'}</option> */}
                                             {moodArray}
                                         </select>
                                     </div>

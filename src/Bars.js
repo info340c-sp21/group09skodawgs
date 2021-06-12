@@ -104,9 +104,11 @@ export class BarsPage extends Component {
         } else {
             tempAry.push(bar);
         }
+        
         // console.log(selection, 'selection');
         // console.log(tempAry, 'arr');
         this.setState( {bookmarks: tempAry} );
+        console.log(tempAry, 'tempary');
         
         // let tempBook = this.state.bookmarks;
         // console.log(bar.clicked, 'bar.clicked');
@@ -354,7 +356,7 @@ class BarCard extends Component {
         bookmarks.transaction((d) => d + 1);
 
         // CALLBACKS for bookmarks
-        this.props.bar['clicked'] = true;
+        // this.props.bar['clicked'] = true;
         this.props.bookCardCall(this.props.bar);
         // bookmark = (<Bookmarks/>);
         // this.props.bookmarksSlide({bookmarked: bookmark});
@@ -486,7 +488,6 @@ class Bookmarks extends Component {
         let removeBar = this.props.bookState.bookmarks.map((bookmark) => {
 
             if (bookmark.id == item.target.id) {
-                bookmark.clicked = false;
                 return bookmark;
             }
         });

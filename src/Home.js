@@ -116,7 +116,7 @@ class DrinkCard extends Component {
                 <CardImg className="bar-card-images" src={this.props.value.image} alt="Card image cap" />
                 <CardBody>
                     <CardTitle tag="h5">{this.props.value.drink}</CardTitle>
-                    <CardSubtitle>Mood: {this.props.value.mood} {this.props.value.type}</CardSubtitle>
+                    {/* <CardSubtitle>Mood: {this.props.value.mood} {this.props.value.type}</CardSubtitle> */}
                     <CardText> Recipe created by: {this.props.value.author}</CardText>
                     <Button><a href={this.props.value.link} target="_blank">{'View Recipe!'}</a></Button>
                 </CardBody>

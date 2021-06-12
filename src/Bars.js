@@ -27,41 +27,62 @@ export class BarsPage extends Component {
     }
     updateSelection = (selection) => {
         let tempAry = this.state.selectedZipcode;
-        if (this.state.selectedZipcode.length > 0) {
-            let checks = 0;
-            // Loop through each
+        let exists = true;
+        if (tempAry.length > 0) {
             for (var i = 0; i < this.state.selectedZipcode.length; i++) {
                 // Verify whether there's a match
-                if (this.state.selectedZipcode[i] != selection) {
-                    checks++;
+                if (tempAry[i] == selection) {
+                    tempAry.splice(i, 1);
+                    exists = true;
+                } else {
+                    exists = false;
                 }
-                // If no matches, add it to the state array
-                if (checks == this.state.selectedZipcode.length) {
-                    tempAry.push(selection);
-                    this.setState({ selectedZipcode: tempAry });
-                }
+            }
+            if (exists == false) {
+                tempAry.push(selection);
             }
         } else {
-            // Automatically add if array is empty
             tempAry.push(selection);
-            this.setState({ selectedZipcode: tempAry });
         }
-        //let zipOption = this.props.barState.selectedZipcode;
-        //1. go through all of the checkboxes and put it into a map.
-        //2. get each boolean isChecked value and put it into an array
-        //3. if a boolean value is false, use its index, and get the zip code from the map.
-            // once this is done, remove the zip code from the array. khalas
-        let allBarsFromState = this.state.bar;
-        for (var i = 0; i < allBarsFromState.length; i++) {
-            let barItself = allBarsFromState[i];
-            if (barItself.zipcode === this.state.selectedZipcode) {
-                barItself.isChosen = true;
-            }
-            else {
-                barItself.isChosen = false;
-            }
-            allBarsFromState[i] = barItself;
-        }
+        console.log(selection, 'selection');
+        console.log(tempAry, 'arr');
+        this.setState( {selectedZipcode: tempAry} );
+
+        // if (this.state.selectedZipcode.length > 0) {
+        //     let checks = 0;
+        //     // Loop through each
+        //     for (var i = 0; i < this.state.selectedZipcode.length; i++) {
+        //         // Verify whether there's a match
+        //         if (this.state.selectedZipcode[i] != selection) {
+        //             checks++;
+        //         }
+        //         // If no matches, add it to the state array
+        //         if (checks == this.state.selectedZipcode.length) {
+        //             tempAry.push(selection);
+        //             this.setState({ selectedZipcode: tempAry });
+        //         }
+        //     }
+        // } else {
+        //     // Automatically add if array is empty
+        //     tempAry.push(selection);
+        //     this.setState({ selectedZipcode: tempAry });
+        // }
+        // //let zipOption = this.props.barState.selectedZipcode;
+        // //1. go through all of the checkboxes and put it into a map.
+        // //2. get each boolean isChecked value and put it into an array
+        // //3. if a boolean value is false, use its index, and get the zip code from the map.
+        //     // once this is done, remove the zip code from the array. khalas
+        // let allBarsFromState = this.state.bar;
+        // for (var i = 0; i < allBarsFromState.length; i++) {
+        //     let barItself = allBarsFromState[i];
+        //     if (barItself.zipcode === this.state.selectedZipcode) {
+        //         barItself.isChosen = true;
+        //     }
+        //     else {
+        //         barItself.isChosen = false;
+        //     }
+        //     allBarsFromState[i] = barItself;
+        // }
     }
 
     updateBookmarks = (bar) => {
@@ -213,7 +234,7 @@ class ZipCodeCheckBox extends Component {
 class RowCheckboxes extends Component {
     
     handleClick = (item) => {
-        console.log(item, "in rowchecbox handle click");
+        // console.log(item, "in rowchecbox handle click");
         this.props.barState.bar.isChecked = !this.props.barState.bar.isChecked;
         // if (this.props.barState.isChecked == true) {
         //     this.props.updateSelection(item.target.value);
@@ -355,7 +376,7 @@ class BarCardRow extends Component {
     render() {
         let barCardArray = this.props.barState.bar.map((item) => {
             let barOption = this.props.barState.selectedZipcode;
-            console.log(barOption, "in barcard row");
+            // console.log(barOption, "in barcard row");
             if (barOption.includes(item.zipcode)) {
                 return (<BarCard bar={item} key={item.id} update={(item) => this.updateBookmarks(item.id)} 
                                 id={item.id} bookies={item.bookmarks} bookCardCall={this.bookmarkCallback}/>);

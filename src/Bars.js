@@ -27,6 +27,8 @@ export class BarsPage extends Component {
     }
     updateSelection = (selection) => {
         let tempAry = this.state.selectedZipcode;
+        console.log(selection);
+        console.log(tempAry);
         if (this.state.selectedZipcode.length > 0) {
             let checks = 0;
             // Loop through each
@@ -51,17 +53,17 @@ export class BarsPage extends Component {
         //2. get each boolean isChecked value and put it into an array
         //3. if a boolean value is false, use its index, and get the zip code from the map.
         // once this is done, remove the zip code from the array. khalas
-        let allBarsFromState = this.state.bar;
-        for (var i = 0; i < allBarsFromState.length; i++) {
-            let barItself = allBarsFromState[i];
-            if (barItself.zipcode === this.state.selectedZipcode) {
-                barItself.isChosen = true;
-            }
-            else {
-                barItself.isChosen = false;
-            }
-            allBarsFromState[i] = barItself;
-        }
+        // let allBarsFromState = this.state.bar;
+        // for (var i = 0; i < allBarsFromState.length; i++) {
+        //     let barItself = allBarsFromState[i];
+        //     if (barItself.zipcode === this.state.selectedZipcode) {
+        //         barItself.isChosen = true;
+        //     }
+        //     else {
+        //         barItself.isChosen = false;
+        //     }
+        //     allBarsFromState[i] = barItself;
+        // }
     }
 
     updateBookmarks = (bar) => {
@@ -215,18 +217,18 @@ class RowCheckboxes extends Component {
         super(props);
     }
     handleClick = (item) => {
-        // console.log(item.target.value, "in rowchecbox handle click");
-        // console.log(this.props.barState.bar[item.target.id].ischosen, 'bar state chosen');
-        // let currentBool = this.props.barState.bar[item.target.id].ischosen;
-        // item.target.ischosen = currentBool;
-        // console.log(currentBool, " is chosen");
-        // currentBool = !currentBool;
-        // console.log(currentBool, " after !");
-        // if (currentBool == true) { 
-        //     currentBool = false;
-        // } else { 
-        //     currentBool = true;
-        // }
+        console.log(item.target.value, "in rowchecbox handle click");
+        console.log(this.props.barState.bar[item.target.id].ischosen, 'bar state chosen');
+        let currentBool = this.props.barState.bar[item.target.id].ischosen;
+        item.target.ischosen = currentBool;
+        console.log(currentBool, " is chosen");
+        currentBool = !currentBool;
+        console.log(currentBool, " after !");
+        if (currentBool == true) { 
+            currentBool = false;
+        } else { 
+            currentBool = true;
+        }
         // console.log(currentBool, " after if statements");
         // console.log(item.isChecked);
         // this.props.barState.bar.isChecked = !this.props.barState.bar.isChecked;
@@ -237,9 +239,10 @@ class RowCheckboxes extends Component {
         //     this.props.updateSelection('');
         //     this.selectedZipcode = '';
         // }
-        // let boolObj = {[item.target.value] : currentBool }
+        let boolObj = {[item.target.value] : currentBool }
+        //this.props.barState.selectedZipcode = item.target.value;
 
-        //     this.props.updateSelection(item.target.value);
+        this.props.updateSelection(boolObj);
         // } else { 
         //     this.props.updateSelection('');
         // }
@@ -254,7 +257,11 @@ class RowCheckboxes extends Component {
         //         this.props.barState.selectedZipcode = '';
         //     }
         console.log(item, "in rowchecbox handle click");
-        this.props.barState.bar.isChecked = !this.props.barState.bar.isChecked;
+        console.log("pre", this.props.barState.bar[item.target.id].ischosen);
+        // this.props.barState.bar[item.target.id].ischosen =  !(this.props.barState.bar[item.target.id].ischosen);
+        this.props.barState.bar[item.target.id].ischosen = true;
+        // this.setState({this.props.barState.bar[item.target.id].ischosen: });
+        // console.log("post", this.props.barState.bar[item.target.id].ischosen);
         // if (this.props.barState.isChecked == true) {
         //     this.props.updateSelection(item.target.value);
         //     //this.selectedZipcode.push(item.target.value);
@@ -262,7 +269,7 @@ class RowCheckboxes extends Component {
         //     this.props.updateSelection('');
         //     this.selectedZipcode = '';
         // }
-        this.props.updateSelection(item.target.value);
+        //this.props.updateSelection(item.target.value);
 
 
     }
@@ -272,10 +279,10 @@ class RowCheckboxes extends Component {
             var itemIsChosen = item.ischosen + "";
             if (!zipArray.includes(item.zipcode)) {
                 { item.ischosen = itemIsChosen }
-                console.log(item.isChosen, "in ifstatement rn");
+               // console.log(item.isChosen, "in ifstatement rn");
                 zipArray.push(<div className="zipcode-checkbox">
-                    {console.log(itemIsChosen, "in render")}
-                    <input type="checkbox" value={(item.zipcode)} id={(item.id)} ischosen={itemIsChosen} onChange={this.handleClick} />{item.zipcode}
+                    {/* {console.log(itemIsChosen, "in render")} */}
+                    <input type="checkbox" value={(item.zipcode)} id={(item.id)} ischosen={item.ischosen} onChange={this.handleClick} />{item.zipcode}
                 </div>);
             }
             return zipArray;
@@ -493,7 +500,7 @@ class Bookmarks extends Component {
             let link = item.website;
             let id = item.id
             let address = item.address;
-            return (<li id={id}>Bar ~ <a href={link}>{name}</a> ~ {address}</li>)
+            return (<li id={id} key={id}>Bar ~ <a href={link}>{name}</a> ~ {address}</li>)
         });
 
         let bookHeader = "";

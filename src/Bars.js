@@ -44,8 +44,8 @@ export class BarsPage extends Component {
         } else {
             tempAry.push(selection);
         }
-        console.log(selection, 'selection');
-        console.log(tempAry, 'arr');
+        // console.log(selection, 'selection');
+        // console.log(tempAry, 'arr');
         this.setState( {selectedZipcode: tempAry} );
 
         // if (this.state.selectedZipcode.length > 0) {
@@ -87,7 +87,7 @@ export class BarsPage extends Component {
 
     updateBookmarks = (bar) => {
         let tempBook = this.state.bookmarks;
-
+        console.log(bar.clicked, 'bar.clicked');
         // If bar item received has clicked as false (from unchecking a Bookmark)
         if (!bar.clicked) {
             // Loop through each bookmark until it matches bar
@@ -255,9 +255,9 @@ class RowCheckboxes extends Component {
             var itemIsChosen = item.ischosen + "";
             if (!zipArray.includes(item.zipcode)) {
                 { item.ischosen = itemIsChosen }
-                console.log(item.isChosen, "in ifstatement rn");
+                // console.log(item.isChosen, "in ifstatement rn");
                 zipArray.push(<div className="zipcode-checkbox">
-                    {console.log(itemIsChosen, "in render")}
+                    {/* {console.log(itemIsChosen, "in render")} */}
                     <input type="checkbox" value={(item.zipcode)} id={(item.id)} ischosen={itemIsChosen} onChange={this.handleClick} />{item.zipcode}
                 </div>);
             }

@@ -85,39 +85,32 @@ export class BarsPage extends Component {
     }
 
     updateBookmarks = (bar) => {
-        let tempBook = this.state.bookmarks;
-        console.log(bar.clicked, 'bar.clicked');
-        // If bar item received has clicked as false (from unchecking a Bookmark)
-        if (!bar.clicked) {
-            // Loop through each bookmark until it matches bar
-            for (var i = 0; i < this.state.bookmarks.length; i++) {
-                // Remove when match is found
-                if (this.state.bookmarks[i].name == bar.name) {
-                    tempBook.splice(i, 1);
-                    this.setState({ bookmarks: tempBook });
-                }
-            }
+        let tempAry = [];
+        let exists = true;
+        if (bar == 'clear') {
+            this.setState({ bookmarks: tempAry });
         } else {
-            // If there is anything in the state
-            if (this.state.bookmarks.length > 0) {
-                let checks = 0;
-                // Loop through each
+            tempAry = this.state.bookmarks;
+
+            if (tempAry.length > 0) {
                 for (var i = 0; i < this.state.bookmarks.length; i++) {
                     // Verify whether there's a match
-                    if (this.state.bookmarks[i].name != bar.name) {
-                        checks++;
-                    }
-                    // If no matches, add it to the state array
-                    if (checks == this.state.bookmarks.length) {
-                        tempBook.push(bar);
-                        this.setState({ bookmarks: tempBook });
+                    if (tempAry[i] == bar) {
+                        tempAry.splice(i, 1);
+                        exists = true;
+                    } else {
+                        exists = false;
                     }
                 }
+                if (exists == false) {
+                    tempAry.push(bar);
+                }
             } else {
-                // Automatically add if array is empty
-                tempBook.push(bar);
-                this.setState({ bookmarks: tempBook });
+                tempAry.push(bar);
             }
+            // console.log(selection, 'selection');
+            // console.log(tempAry, 'arr');
+            this.setState({ bookmarks: tempAry });
         }
     }
 
@@ -262,7 +255,7 @@ class RowCheckboxes extends Component {
 
         });
         return (
-            <div className="zipcode-checkbox-container" >
+            <div className="zipcode-checkbox-container">
                 {zipArray}
             </div>
         );
@@ -351,7 +344,7 @@ class BarCard extends Component {
                     <CardSubtitle> Zipcode: {this.props.bar.zipcode}</CardSubtitle>
                     <CardText> Address: {this.props.bar.address}</CardText>
                     <Button className="visit-website"><a style={visiStyle} href={this.props.bar.website} target="_blank">{'Visit Website'}</a></Button>
-                    <Button className="bookmark-in-bars" style={buttonStyle} onClick={this.handleButtonClick}>Cheers to Bookmark: {this.props.bookies}</Button>
+                    <Button className="bookmark-in-bars" style={buttonStyle} onClick={this.handleButtonClick}>Cheers: {this.props.bookies}</Button>
                 </CardBody>
             </Card>
 
@@ -455,14 +448,15 @@ class Bookmarks extends Component {
     // // }
     // }
     handleClick = (item) => {
-        let removeBar = this.props.bookState.bookmarks.map((bookmark) => {
+        // let removeBar = this.props.bookState.bookmarks.map((bookmark) => {
 
-            if (bookmark.id == item.target.id) {
-                bookmark.clicked = false;
-                return bookmark;
-            }
-        });
-        this.props.bookmarkCallback(removeBar[0]);
+        //     if (bookmark.id == item.target.id) {
+        //         console.log(bookmark.id, "itemid");
+        //         bookmark.clicked = false;
+        //         return bookmark;
+        //     }
+        // });
+        this.props.bookmarkCallback('clear');
     }
 
     render() {
@@ -481,16 +475,16 @@ class Bookmarks extends Component {
             bookControl = "";
         }
         else {
-            bookHeader = "Bookmarks";
-            bookControl = "(click here to remove)"
+            bookHeader = "Recently Cheered:";
+            bookControl = "(click HERE to remove)"
         }
 
         return (
             <div className="bookmarks-side">
                 <h2>{bookHeader}</h2>
-                <h5>{bookControl}</h5>
+                <h5 onClick={this.handleClick}>{bookControl}</h5>
                 <div className="sidebox">
-                    <ul className='links-side-list' id="links-list" onClick={this.handleClick}>{bookArr}</ul>
+                    <ul className='links-side-list' id="links-list" >{bookArr}</ul>
                 </div>
             </div>
         );

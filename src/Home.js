@@ -111,6 +111,8 @@ class DrinkCard extends Component {
             marginTop: '10px',
             float: 'center'
         };
+        const visiStyle = {color: 'black'};
+        
         return (
             <Card style={mystyle}>
                 <CardImg className="bar-card-images" src={this.props.value.image} alt="Card image cap" />
@@ -118,7 +120,7 @@ class DrinkCard extends Component {
                     <CardTitle tag="h5">{this.props.value.drink}</CardTitle>
                     {/* <CardSubtitle>Mood: {this.props.value.mood} {this.props.value.type}</CardSubtitle> */}
                     <CardText> Recipe created by: {this.props.value.author}</CardText>
-                    <Button><a href={this.props.value.link} target="_blank">{'View Recipe!'}</a></Button>
+                    <Button><a style={visiStyle} href={this.props.value.link} target="_blank">{'View Recipe!'}</a></Button>
                 </CardBody>
             </Card>
 

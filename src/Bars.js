@@ -11,7 +11,6 @@ import { MDBCol } from "mdbreact";
 import 'firebase/database';
 import firebase from 'firebase/app';
 
-
 export class BarsPage extends Component {
     constructor(props) {
         super(props);
@@ -46,104 +45,80 @@ export class BarsPage extends Component {
         }
         // console.log(selection, 'selection');
         // console.log(tempAry, 'arr');
-        this.setState( {selectedZipcode: tempAry} );
+        this.setState({ selectedZipcode: tempAry });
 
         // if (this.state.selectedZipcode.length > 0) {
-        //     let checks = 0;
-        //     // Loop through each
-        //     for (var i = 0; i < this.state.selectedZipcode.length; i++) {
-        //         // Verify whether there's a match
-        //         if (this.state.selectedZipcode[i] != selection) {
-        //             checks++;
-        //         }
-        //         // If no matches, add it to the state array
-        //         if (checks == this.state.selectedZipcode.length) {
-        //             tempAry.push(selection);
-        //             this.setState({ selectedZipcode: tempAry });
-        //         }
-        //     }
+        // let checks = 0;
+        // // Loop through each
+        // for (var i = 0; i < this.state.selectedZipcode.length; i++) {
+        // // Verify whether there's a match
+        // if (this.state.selectedZipcode[i] != selection) {
+        // checks++;
+        // }
+        // // If no matches, add it to the state array
+        // if (checks == this.state.selectedZipcode.length) {
+        // tempAry.push(selection);
+        // this.setState({ selectedZipcode: tempAry });
+        // }
+        // }
         // } else {
-        //     // Automatically add if array is empty
-        //     tempAry.push(selection);
-        //     this.setState({ selectedZipcode: tempAry });
+        // // Automatically add if array is empty
+        // tempAry.push(selection);
+        // this.setState({ selectedZipcode: tempAry });
         // }
         // //let zipOption = this.props.barState.selectedZipcode;
         // //1. go through all of the checkboxes and put it into a map.
         // //2. get each boolean isChecked value and put it into an array
         // //3. if a boolean value is false, use its index, and get the zip code from the map.
-        //     // once this is done, remove the zip code from the array. khalas
+        // // once this is done, remove the zip code from the array. khalas
         // let allBarsFromState = this.state.bar;
         // for (var i = 0; i < allBarsFromState.length; i++) {
-        //     let barItself = allBarsFromState[i];
-        //     if (barItself.zipcode === this.state.selectedZipcode) {
-        //         barItself.isChosen = true;
-        //     }
-        //     else {
-        //         barItself.isChosen = false;
-        //     }
-        //     allBarsFromState[i] = barItself;
+        // let barItself = allBarsFromState[i];
+        // if (barItself.zipcode === this.state.selectedZipcode) {
+        // barItself.isChosen = true;
+        // }
+        // else {
+        // barItself.isChosen = false;
+        // }
+        // allBarsFromState[i] = barItself;
         // }
     }
 
     updateBookmarks = (bar) => {
-        let tempAry = this.state.bookmarks;
-        let exists = true;
-        if (tempAry.length > 0) {
+        let tempBook = this.state.bookmarks;
+        console.log(bar.clicked, 'bar.clicked');
+        // If bar item received has clicked as false (from unchecking a Bookmark)
+        if (!bar.clicked) {
+            // Loop through each bookmark until it matches bar
             for (var i = 0; i < this.state.bookmarks.length; i++) {
-                // Verify whether there's a match
-                if (tempAry[i] == bar) {
-                    tempAry.splice(i, 1);
-                    exists = true;
-                } else {
-                    exists = false;
+                // Remove when match is found
+                if (this.state.bookmarks[i].name == bar.name) {
+                    tempBook.splice(i, 1);
+                    this.setState({ bookmarks: tempBook });
                 }
             }
-            if (exists == false) {
-                tempAry.push(bar);
-            }
         } else {
-            tempAry.push(bar);
+            // If there is anything in the state
+            if (this.state.bookmarks.length > 0) {
+                let checks = 0;
+                // Loop through each
+                for (var i = 0; i < this.state.bookmarks.length; i++) {
+                    // Verify whether there's a match
+                    if (this.state.bookmarks[i].name != bar.name) {
+                        checks++;
+                    }
+                    // If no matches, add it to the state array
+                    if (checks == this.state.bookmarks.length) {
+                        tempBook.push(bar);
+                        this.setState({ bookmarks: tempBook });
+                    }
+                }
+            } else {
+                // Automatically add if array is empty
+                tempBook.push(bar);
+                this.setState({ bookmarks: tempBook });
+            }
         }
-        
-        // console.log(selection, 'selection');
-        // console.log(tempAry, 'arr');
-        this.setState( {bookmarks: tempAry} );
-        console.log(tempAry, 'tempary');
-        
-        // let tempBook = this.state.bookmarks;
-        // console.log(bar.clicked, 'bar.clicked');
-        // // If bar item received has clicked as false (from unchecking a Bookmark)
-        // if (!bar.clicked) {
-        //     // Loop through each bookmark until it matches bar
-        //     for (var i = 0; i < this.state.bookmarks.length; i++) {
-        //         // Remove when match is found
-        //         if (this.state.bookmarks[i].name == bar.name) {
-        //             tempBook.splice(i, 1);
-        //             this.setState({ bookmarks: tempBook });
-        //         }
-        //     }
-        // } else {
-        //     // If there is anything in the state
-        //     if (this.state.bookmarks.length > 0) {
-        //         let checks = 0;
-        //         // Loop through each
-        //         for (var i = 0; i < this.state.bookmarks.length; i++) {
-        //             // Verify whether there's a match
-        //             if (this.state.bookmarks[i].name != bar.name) {
-        //                 checks++;
-        //             }
-        //             // If no matches, add it to the state array
-        //             if (checks == this.state.bookmarks.length) {
-        //                 tempBook.push(bar);
-        //                 this.setState({ bookmarks: tempBook });
-        //             }
-        //         }
-        //     } else {
-        //         // Automatically add if array is empty
-        //         tempBook.push(bar);
-        //         this.setState({ bookmarks: tempBook });
-        //     }
-        // }
     }
 
     handleChange(event) {
@@ -157,7 +132,7 @@ export class BarsPage extends Component {
 
     componentDidMount() {
         // d3.csv('data/bars.csv').then((d) => {
-        //     this.setState({ bar: d, keys: d3c.keys(d[0]) });
+        // this.setState({ bar: d, keys: d3c.keys(d[0]) });
         // });
         this.barJSON = firebase.database().ref('bars')
         this.barJSON.on('value', (snapshot) => {
@@ -165,15 +140,14 @@ export class BarsPage extends Component {
             let d = Object.values(tweets);
             let k = Object.keys(d[0]);
 
-
             this.setState({ bar: d, keys: k });
         });
         // this.barsRef = firebase.database().ref('bars');
 
         // // When the "tweets" *value* changes, update the state appropriately (`tweets`)
         // this.barsRef.on('value', (snapshot) => { 
-        //     let bar = snapshot.val();
-        //     this.setState({bar: bar});
+        // let bar = snapshot.val();
+        // this.setState({bar: bar});
         // });
 
     }
@@ -182,7 +156,7 @@ export class BarsPage extends Component {
         return (
             <div>
                 <BarIntroText />{/* 
-                <ZipSelection barState={this.state} updateSelection={this.updateSelection} /> */}
+<ZipSelection barState={this.state} updateSelection={this.updateSelection} /> */}
                 <RowCheckboxes barState={this.state} updateSelection={this.updateSelection} />
                 <div className="mscardssitch"> <BarCardRow barState={this.state} bookmarkCallback={this.updateBookmarks} />
                     <div className="bookMarksClassName">
@@ -202,7 +176,7 @@ class BarIntroText extends Component {
                 <h2> Explore and Bookmark Local Bars Near You</h2>
                 <p>
                     While you can always make drinks at home, going out to local bars is a great way to save time while also supporting the businesses around your area. Using the search bar, look up your area code to see if there are any bars we recommend near you.
-                </p>
+</p>
             </div>
         );
     }
@@ -238,13 +212,13 @@ class ZipCodeCheckBox extends Component {
     render() {
 
         return (
-            //     <form>
-            //         <label> Select Neighborhoods:
-            //     <input name="checkZip"value="hi" id="checkbox" onChange={this.handleClick}>
+            // <form>
+            // <label> Select Neighborhoods:
+            // <input name="checkZip"value="hi" id="checkbox" onChange={this.handleClick}>
 
-            //         {this.zipArray}
-            //     </input>
-            //     </label>
+            // {this.zipArray}
+            // </input>
+            // </label>
             // </form>
             <div className="zipcode-checkbox">
                 <input type="checkbox" value={(this.props.value.zipcode)} id={(this.props.value.zipcode)}
@@ -263,14 +237,13 @@ class RowCheckboxes extends Component {
         // console.log(item, "in rowchecbox handle click");
         this.props.barState.bar.isChecked = !this.props.barState.bar.isChecked;
         // if (this.props.barState.isChecked == true) {
-        //     this.props.updateSelection(item.target.value);
-        //     //this.selectedZipcode.push(item.target.value);
+        // this.props.updateSelection(item.target.value);
+        // //this.selectedZipcode.push(item.target.value);
         // } else { 
-        //     this.props.updateSelection('');
-        //     this.selectedZipcode = '';
+        // this.props.updateSelection('');
+        // this.selectedZipcode = '';
         // }
         this.props.updateSelection(item.target.value);
-
 
     }
     render() {
@@ -322,7 +295,7 @@ class ZipSelection extends Component {
                             <form>
                                 <label htmlFor="moods" className="main-title">
                                     Choose Your Neighborhood By Zipcode
-                                    <div >
+<div >
                                         <select name="types" id="types" onChange={this.handleClick}>
                                             <option value="DEFAULT">{'-- select a neighborhood --'}</option>
                                             {zipArray}
@@ -331,7 +304,6 @@ class ZipSelection extends Component {
 
                                 </label><br />
                                 <br />
-
 
                             </form>
 
@@ -356,7 +328,7 @@ class BarCard extends Component {
         bookmarks.transaction((d) => d + 1);
 
         // CALLBACKS for bookmarks
-        // this.props.bar['clicked'] = true;
+        this.props.bar['clicked'] = true;
         this.props.bookCardCall(this.props.bar);
         // bookmark = (<Bookmarks/>);
         // this.props.bookmarksSlide({bookmarked: bookmark});
@@ -369,7 +341,7 @@ class BarCard extends Component {
             marginBottom: '10px',
             float: 'center'
         };
-        const visiStyle = {color: 'black'};
+        const visiStyle = { color: 'black' };
         const buttonStyle = { marginLeft: '10px', color: '#9A0A35' };
         return (
             <Card style={mystyle}>
@@ -378,7 +350,7 @@ class BarCard extends Component {
                     <CardTitle> Bar Name: {this.props.bar.name}</CardTitle>
                     <CardSubtitle> Zipcode: {this.props.bar.zipcode}</CardSubtitle>
                     <CardText> Address: {this.props.bar.address}</CardText>
-                    <Button className ="visit-website"><a style={visiStyle} href={this.props.bar.website} target="_blank">{'Visit Website'}</a></Button>
+                    <Button className="visit-website"><a style={visiStyle} href={this.props.bar.website} target="_blank">{'Visit Website'}</a></Button>
                     <Button className="bookmark-in-bars" style={buttonStyle} onClick={this.handleButtonClick}>Cheers to Bookmark: {this.props.bookies}</Button>
                 </CardBody>
             </Card>
@@ -420,11 +392,11 @@ class BarCardRow extends Component {
 
         // let topThreeArray = new Map();
         // topThreeArray = this.props.barState.bar.map((item) => {
-        //     var book = item.bookmarks;
-        //     let names = item.name;
-        //     //return ({ [book]: names });
-        //     return({[book]:names});
-        //     //could do top three filtering here itself
+        // var book = item.bookmarks;
+        // let names = item.name;
+        // //return ({ [book]: names });
+        // return({[book]:names});
+        // //could do top three filtering here itself
         // })
 
         let topThreeNames = [];
@@ -455,7 +427,6 @@ class BarCardRow extends Component {
         }
         myTopThreeBadBitches = myTopThreeBadBitches.substring(0, ((myTopThreeBadBitches.length) - 2));
 
-
         let barHeader = "";
         let zipOption = this.props.barState.selectedZipcode;
 
@@ -476,18 +447,18 @@ class BarCardRow extends Component {
     }
 }
 
-
 class Bookmarks extends Component {
     // constructor(props) {
-    //     super(props);
-    //     // this.state = {
-    //     //     books = this.props.bookState.bookmarks
-    //     // }
+    // super(props);
+    // // this.state = {
+    // // books = this.props.bookState.bookmarks
+    // // }
     // }
     handleClick = (item) => {
         let removeBar = this.props.bookState.bookmarks.map((bookmark) => {
 
             if (bookmark.id == item.target.id) {
+                bookmark.clicked = false;
                 return bookmark;
             }
         });
@@ -511,7 +482,7 @@ class Bookmarks extends Component {
         }
         else {
             bookHeader = "Bookmarks";
-            bookControl = "(select bar to remove)"
+            bookControl = "(click here to remove)"
         }
 
         return (
@@ -527,7 +498,7 @@ class Bookmarks extends Component {
 }
 
 // class TopThree extends Component { 
-//     render() { 
-//         return (); 
-//     }
+// render() { 
+// return (); 
+// }
 // }

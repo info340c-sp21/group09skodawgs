@@ -345,6 +345,7 @@ class BarCard extends Component {
             marginBottom: '10px',
             float: 'center'
         };
+        const visiStyle = {color: 'black'};
         const buttonStyle = { marginLeft: '10px', color: '#9A0A35' };
         return (
             <Card style={mystyle}>
@@ -353,8 +354,8 @@ class BarCard extends Component {
                     <CardTitle> Bar Name: {this.props.bar.name}</CardTitle>
                     <CardSubtitle> Zipcode: {this.props.bar.zipcode}</CardSubtitle>
                     <CardText> Address: {this.props.bar.address}</CardText>
-                    <Button><a href={this.props.bar.website} target="_blank">{'Visit Website'}</a></Button>
-                    <Button style={buttonStyle} onClick={this.handleButtonClick}>Cheers to Bookmark (feel free to spam!): {this.props.bookies}</Button>
+                    <Button className ="visit-website"><a style={visiStyle} href={this.props.bar.website} target="_blank">{'Visit Website'}</a></Button>
+                    <Button className="bookmark-in-bars" style={buttonStyle} onClick={this.handleButtonClick}>Cheers to Bookmark: {this.props.bookies}</Button>
                 </CardBody>
             </Card>
 

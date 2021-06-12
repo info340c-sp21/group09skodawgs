@@ -2,12 +2,18 @@ h1{
    font-size:93pt;
    font-weight: bold;
 }
+a {
+   color: yellow;
+}
 body{
    /*Color grey for debug*/
    background-color:#202427; 
    /*background-color: #D3D3D3;*/
  font-family: 'Poppins', sans-serif;
    color:white;
+}
+.visit-website{
+   color:black;
 }
 .ingredients-box {
    color:grey;
@@ -92,4 +98,106 @@ div.drink-chosen {
 .bookMarksClassName {
    margin-left: 200px;
    margin-top: 63px;
+}
+
+@media (min-width: 475px)
+{
+   h1{
+      font-size:75pt;
+   }
+   div.drink-chosen {
+      position: right;
+      right: -5px;
+      width: 120px;
+      bottom: 30px;
+      margin-right: 0px;
+      float:right;
+      margin-top: 0px;
+      }
+   h2 {
+      font-size:20px;
+   }
+   .bar-card-images { 
+      width:  120px;
+      height: 120px;
+    }
+    .bookmark-in-bars {
+       margin-top: 2px;
+       margin-right: 0px;
+    }
+    .mscardssitch {
+      display: flex;
+      margin-left: 0px;
+      flex-direction: column;
+   }
+   .bookMarksClassName {
+      margin-left: 0px;
+      margin-top: 0px;
+   }
+   ul {
+      display: flex;
+      flex-direction: column;
+   }
+   .about-images {
+      display: flex;
+      flex-direction: column;
+   }
+   .flex-container2 {
+      flex-direction: column;
+    }
+}
+
+@media (min-width: 768px)
+{
+   div.drink-chosen {
+      position: right;
+      right: -5px;
+      width: 200px;
+      bottom: 30px;
+      margin-right: 0px;
+      float:right;
+      margin-top: 0px;
+   }
+   .bar-card-images { 
+      width:  200px;
+      height: 200px;
+    }
+   .about-images {
+      display: flex;
+      flex-direction: row;
+      width:  150px;
+      height: 150px;
+   }
+   .flex-container2 {
+      flex-direction: row;
+    }
+    .mscardssitch {
+      display: flex;
+      margin-left: 0px;
+      flex-direction: row;
+   }
+   .bookMarksClassName {
+      margin-top: 60px;
+   }
+   ul {
+      display: flex;
+      flex-direction: column;
+   }
+}
+
+@media (min-width: 1199px)
+{
+   .about-images {
+      display: flex;
+      flex-direction: row;
+      width:  200px;
+      height: 200px;
+   }
+   ul {
+      display: flex;
+      flex-direction: column;
+   }
+   h2 {
+      font-size: 20pt;
+   }
 }

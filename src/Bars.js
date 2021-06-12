@@ -28,7 +28,7 @@ export class BarsPage extends Component {
     updateSelection = (selection) => {
         let tempAry = this.state.selectedZipcode;
         console.log(selection);
-        console.log(tempAry);
+        console.log
         if (this.state.selectedZipcode.length > 0) {
             let checks = 0;
             // Loop through each
@@ -271,6 +271,11 @@ class RowCheckboxes extends Component {
         // }
         //this.props.updateSelection(item.target.value);
 
+        //simple solution: if its checked, its in the list 
+        // we know whats checked and whats in selected zipcodes
+        // because we know what the selected values are, we know what all the options are
+        //blow away and rerender whats there 
+
 
     }
     render() {
@@ -412,7 +417,8 @@ class BarCardRow extends Component {
                 return (<BarCard bar={item} key={item.id} update={(item) => this.updateBookmarks(item.id)}
                     id={item.id} bookies={item.bookmarks} bookCardCall={this.bookmarkCallback} />);
                 // in barcardrow it should look to see what options have been selected
-                //based on those, it renders the correct ones. 
+                //based on those, it renders the correct ones.
+                //update what gets sent to this so it only renders cards we want  
             }
 
         })

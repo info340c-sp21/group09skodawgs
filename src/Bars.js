@@ -287,7 +287,7 @@ class RowCheckboxes extends Component {
 
         });
         return (
-            <div >
+            <div className="zipcode-checkbox-container" >
                 {zipArray}
             </div>
         );

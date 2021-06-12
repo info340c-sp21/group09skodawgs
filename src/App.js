@@ -28,6 +28,7 @@ class App2 extends Component {
                     <Route path="/about" component={About} />
                 </div>
             </Router>
+            
         </div>
         );
     }
@@ -194,6 +195,17 @@ class cheersMidBox extends Component {
     }
 }
 
+class Footer extends Component { 
+    render() { 
+        return(  <footer>
+            <p>Copyright &copy; 2021 Nick Liang and Kavya Iyer. All rights reserved.</p>
+            <address>
+                Contact us at <a href="mailto:us@uw.edu">us@uw.edu</a>, or at <a href="tel:123-456-7890">(123) 456-7890</a>.
+            </address>
+    
+        </footer>);
+    }
+}
 
 class rightPanel extends Component {
     render() {
